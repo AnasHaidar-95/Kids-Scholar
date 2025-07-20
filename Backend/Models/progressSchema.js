@@ -1,0 +1,36 @@
+import mongoose from "mongoose";
+
+const progressSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  contentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    refPath: 'contentType'
+  },
+  contentType: {
+    type: String,
+    required: true,
+    enum: ["Lesson", "Game", "Story", "Quiz"],
+  },
+  status: {
+    type: String,
+    enum: ["To-be-Started", "In-Progress", "Completed"],
+    default: "To-be-Started",
+  },
+  score: {
+    type: Number,
+    default: 0
+  },
+  startedAt: {
+    type: Date,
+  },
+  completedAt: {
+    type: Date,
+  },
+}, { timestamps: true });
+
+export default mongoose.model("Progress", progressSchema);
