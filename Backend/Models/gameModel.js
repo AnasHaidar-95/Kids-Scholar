@@ -13,6 +13,7 @@ const gameSchema= new mongoose.Schema({
         type: String,
         required: true,
     },
+    
 });
 
 export default mongoose.model("Game",gameSchema);

@@ -20,13 +20,17 @@ const userSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["student", "teacher"],
+        enum: ["student", "teacher", "admin"],
         default: "student",
     },
     language: {
         type: String,
         required: false
-    }
-});
+    },
+    badges: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Badge"
+    }]
+}, {timestamps: true});
 
 export default mongoose.model("User", userSchema);

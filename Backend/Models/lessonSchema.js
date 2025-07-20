@@ -20,8 +20,9 @@ const lessonSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: "English"
+    default: "English",
   },
+  
 });
 
 export default mongoose.model("Lesson", lessonSchema);

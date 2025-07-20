@@ -1,23 +1,20 @@
 import mongoose from "mongoose";
 
-const badgeSchema=new mongoose.Schema({
+const badgeSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"User",
-        required:true
+        ref: "User",
+        required: true
     },
-    name:{
-        type:String,
-        required:true
+    badgeDefinition: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "BadgeDefinition",
+        required: true
     },
-    image: {
-        type:String,
-        required:true
-    },
-    acquiredAt: {
+    earnedAt: {
         type: Date,
-        default: Date.now,
-    },
-});
+        default: Date.now
+    }
+}, { timestamps: true });
 
 export default mongoose.model("Badge", badgeSchema);

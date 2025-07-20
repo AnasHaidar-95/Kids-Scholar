@@ -27,10 +27,11 @@ const progressSchema = new mongoose.Schema({
   },
   startedAt: {
     type: Date,
+    default: Date.now
   },
   completedAt: {
-    type: Date,
+    type: Date
   },
-}, { timestamps: true });
+});
 
 export default mongoose.model("Progress", progressSchema);
