@@ -10,10 +10,11 @@ const MultiplicationGame = () => {
   const timerRef = useRef(null);
 
   // تشغيل صوت حسب نوع الإجابة
-  const playSound = (type) => {
-    const audio = new Audio(`/sounds/${type}.mp3`);
-    audio.play();
-  };
+ const playSound = (type, volume = 0.5) => {
+   const audio = new Audio(`/sounds/${type}.mp3`);
+   audio.volume = volume; // ضبط مستوى الصوت من 0 إلى 1
+   audio.play();
+ };
 
   // توليد سؤال واختيارات
   const generateQuestion = () => {
@@ -41,10 +42,10 @@ const MultiplicationGame = () => {
     if (answer === correct) {
       setScore((prev) => prev + 1);
       setFeedback("✅ Correct!");
-      playSound("yes");
+      playSound("yes",0.3);
     } else {
       setFeedback("❌ Incorrect!");
-      playSound("no");
+      playSound("no",0,3);
     }
     setTimeout(() => generateQuestion(), 800);
   };
@@ -57,7 +58,7 @@ const MultiplicationGame = () => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
           setGameOver(true);
-          playSound("winner");
+          playSound("winner",0.3);
           return 0;
         }
         return prev - 1;

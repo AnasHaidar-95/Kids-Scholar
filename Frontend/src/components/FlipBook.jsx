@@ -92,7 +92,7 @@ export default function FlipBook() {
     if (!audioRef.current) {
       const audio = new Audio("/sounds/22.mp3");
       audio.loop = true;
-      audio.volume = 0.08;
+      audio.volume = 0.1;
       audioRef.current = audio;
     }
 
@@ -142,7 +142,7 @@ export default function FlipBook() {
         style={{ fontFamily: "'Cairo', sans-serif" }}
       >
         {/* الغلاف */}
-        <div className="bg-[url('/images/back.jpeg')] bg-no-repeat bg-cover bg-center">
+        <div className="bg-red-400 bg-no-repeat bg-cover bg-center">
           {/* محتوى الغلاف */}
         </div>
 

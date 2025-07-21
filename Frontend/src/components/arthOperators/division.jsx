@@ -10,10 +10,11 @@ const Division = () => {
   const timerRef = useRef(null);
 
   // تشغيل صوت حسب نوع الإجابة
-  const playSound = (type) => {
-    const audio = new Audio(`/sounds/${type}.mp3`);
-    audio.play();
-  };
+ const playSound = (type, volume = 0.5) => {
+   const audio = new Audio(`/sounds/${type}.mp3`);
+   audio.volume = volume; // ضبط مستوى الصوت من 0 إلى 1
+   audio.play();
+ };
 
   // توليد سؤال واختيارات (قسمة صحيحة بدون باقي)
   const generateQuestion = () => {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { ArrowLeft } from "lucide-react";
 
 const Mines = () => {
   const [question, setQuestion] = useState({ num1: 0, num2: 0 });
@@ -10,11 +11,11 @@ const Mines = () => {
   const timerRef = useRef(null);
 
   // تشغيل صوت حسب نوع الإجابة
-  const playSound = (type) => {
-    const audio = new Audio(`/sounds/${type}.mp3`);
-    audio.play();
-  };
-
+ const playSound = (type, volume = 0.5) => {
+   const audio = new Audio(`/sounds/${type}.mp3`);
+   audio.volume = volume; // ضبط مستوى الصوت من 0 إلى 1
+   audio.play();
+ };
   // توليد سؤال واختيارات (طرح مع التأكد أن النتيجة غير سالبة)
   const generateQuestion = () => {
     let num1 = Math.floor(Math.random() * 20) + 1;
@@ -45,10 +46,10 @@ const Mines = () => {
     if (answer === correct) {
       setScore((prev) => prev + 1);
       setFeedback("✅ Correct!");
-      playSound("yes");
+      playSound("yes" , 0.3);
     } else {
       setFeedback("❌ Incorrect!");
-      playSound("no");
+      playSound("no",0.3);
     }
     setTimeout(() => generateQuestion(), 800);
   };
@@ -61,7 +62,7 @@ const Mines = () => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
           setGameOver(true);
-          playSound("winner");
+          playSound("winner",0.3);
           return 0;
         }
         return prev - 1;
