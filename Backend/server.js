@@ -11,14 +11,12 @@ import progressRoutes from "./Routes/progressRoutes.js"
 import badgeRoutes from "./Routes/badgeRoutes.js";
 
 import { notFound, errorHandler } from "./Middleware/errorMiddleware.js";
+import uploadRouter from "./Routes/upload.js";
+import cors from "cors"
 
 dotenv.config();
 
 const app = express();
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // Connect to database
 connectDB();
@@ -33,9 +31,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/stories", storyRoutes);
 app.use("/api/lessons", lessonRoutes);
 app.use("/api/games", gameRoutes);
-app.use("/api/quizz", quizzRoutes);
-app.use("/api/progresses", progressRoutes);
-app.use("/api/badges", badgeRoutes);
 
 // Error Middleware
 app.use(notFound);
