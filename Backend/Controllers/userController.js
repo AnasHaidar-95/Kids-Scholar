@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import User from "../Models/userModel.js";
+import bcrypt from "bcryptjs";
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -27,12 +28,11 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 //تعديل بيانات المستخدم
 export const updateUserData = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.user.id,
       {
         name: req.body.name,
         email: req.body.email,
-        password: await bcrypt.hash(req.body.password, 10),
         age: req.body.age,
       },
       {
@@ -46,13 +46,31 @@ export const updateUserData = asyncHandler(async (req, res) => {
     res.status(500).send(`There Is An Error Editing Profile Info .. ${error}`);
   }
 });
+//تعديل كلمة السر للمستخدم
+export const updateUserPassword = asyncHandler(async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        password: await bcrypt.hash(req.body.password, 10),
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(201).json("Password Has Been Edited Sucessfully");
+  } catch (error) {
+    res.status(500).send(`There Is An Error Editing Profile Info .. ${error}`);
+  }
+});
 
 //حذف المستخدم
 export const deleteUserData = asyncHandler(async (req, res) => {
   try {
     await User.findByIdAndDelete(req.user.id);
-
-    res.status(201).json("User Data Has Been Deleted Sucessfully");
+    if (User) res.status(201).json("User Data Has Been Deleted Sucessfully");
   } catch (error) {
     res.status(500).send(`There Is An Error Deleting User Data .. ${error}`);
   }

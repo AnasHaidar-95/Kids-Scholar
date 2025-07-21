@@ -14,7 +14,7 @@ const progressSchema = new mongoose.Schema({
   contentType: {
     type: String,
     required: true,
-    enum: ["Lesson", "Game", "Story", "Quiz"],
+    enum: ["Lesson", "Game", "Story", "Quizz"],
   },
   status: {
     type: String,

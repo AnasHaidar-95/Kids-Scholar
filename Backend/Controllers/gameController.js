@@ -40,7 +40,7 @@ export const getGameById = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update a game
-// @route   PUT /api/games/:id
+// @route   patch /api/games/:id
 // @access  Private/Admin
 export const updateGame = asyncHandler(async (req, res) => {
     const game = await Game.findById(req.params.id);
@@ -62,10 +62,9 @@ export const updateGame = asyncHandler(async (req, res) => {
 // @route   DELETE /api/games/:id
 // @access  Private/Admin
 export const deleteGame = asyncHandler(async (req, res) => {
-    const game = await Game.findById(req.params.id);
+    const game = await Game.findByIdAndDelete(req.params.id);
 
     if (game) {
-        await game.deleteOne();
         res.json({ message: "Game removed" });
     } else {
         res.status(404);

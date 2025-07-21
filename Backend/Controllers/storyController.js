@@ -68,10 +68,9 @@ export const updateStory = asyncHandler(async (req, res) => {
 // @route   DELETE /api/stories/:id
 // @access  Private/Admin
 export const deleteStory = asyncHandler(async (req, res) => {
-    const story = await Story.findById(req.params.id);
+    const story = await Story.findByIdAndDelete(req.params.id);
 
     if (story) {
-        await story.deleteOne();
         res.json({ message: "Story removed" });
     } else {
         res.status(404);

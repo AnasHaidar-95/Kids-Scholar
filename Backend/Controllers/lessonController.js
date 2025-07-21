@@ -66,10 +66,9 @@ export const updateLesson = asyncHandler(async (req, res) => {
 // @route   DELETE /api/lessons/:id
 // @access  Private/Admin
 export const deleteLesson = asyncHandler(async (req, res) => {
-    const lesson = await Lesson.findById(req.params.id);
+    const lesson = await Lesson.findByIdAndDelete(req.params.id);
 
     if (lesson) {
-        await lesson.deleteOne();
         res.json({ message: "Lesson removed" });
     } else {
         res.status(404);
