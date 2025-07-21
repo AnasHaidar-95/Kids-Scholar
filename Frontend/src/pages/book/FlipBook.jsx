@@ -1,7 +1,8 @@
 import HTMLFlipBook from "react-pageflip";
 import { useEffect, useRef, useState } from "react";
-import { storyPages } from "../../storyData";
-import { Theme } from "../../theme";
+import { storyPages } from "../../../storyData";
+import { Theme } from "../../../theme";
+
 export default function FlipBook() {
   const bookRef = useRef();
   const audioRef = useRef(null);
@@ -10,7 +11,6 @@ export default function FlipBook() {
   const [audioStarted, setAudioStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // تحميل الأصوات
   useEffect(() => {
     const loadVoices = () => {
       const allVoices = speechSynthesis.getVoices();
@@ -22,7 +22,6 @@ export default function FlipBook() {
     loadVoices();
   }, []);
 
-  // دالة القراءة النصية
   const readAllTexts = (texts, index = 0) => {
     if (index >= texts.length) {
       setTimeout(() => {
@@ -57,7 +56,6 @@ export default function FlipBook() {
     speechSynthesis.speak(utterance);
   };
 
-  // تشغيل القراءة عند تغيير الصفحة
   useEffect(() => {
     if (currentPage === 0 || voices.length === 0) return;
 
@@ -77,7 +75,6 @@ export default function FlipBook() {
     }
   }, [currentPage, voices, audioStarted]);
 
-  // إيقاف الصوت عند تفكيك المكون
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -87,7 +84,6 @@ export default function FlipBook() {
     };
   }, []);
 
-  // تشغيل أو إيقاف الصوت عند النقر على الزر
   const handleToggleAudio = () => {
     if (!audioRef.current) {
       const audio = new Audio("/sounds/22.mp3");
@@ -109,7 +105,7 @@ export default function FlipBook() {
   };
 
   return (
-    <div className="flex flex-col items-center mt-10 px-4">
+    <div className="flex flex-col items-center p-10 px-4 overflow-hidden bg-blue-500 min-h-screen">
       {/* زر تشغيل/إيقاف الموسيقى */}
       <button
         onClick={handleToggleAudio}
@@ -118,58 +114,62 @@ export default function FlipBook() {
         {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
       </button>
 
-      {/* كتاب القصة */}
-      <HTMLFlipBook
-        width={100}
-        height={100}
-        size="stretch"
-        showCover={true}
-        mobileScrollSupport={true}
-        maxShadowOpacity={0.7}
-        className="shadow-2xl rounded-xl border border-gray-300 bg-white"
-        ref={bookRef}
-        onFlip={(e) => {
-          const newPage = e.data;
-          setCurrentPage(newPage);
+      {/* الكتاب */}
+      <div className="border-blue-500 border w-full max-w-5xl flex justify-center">
+        <HTMLFlipBook
+          width={350}
+          height={450}
+          size="stretch"
+          showCover={true}
+          mobileScrollSupport={true}
+          maxShadowOpacity={0.5}
+          drawShadow={true}
+          useMouseEvents={true}
+          className="shadow-xl rounded-lg border border-gray-300 bg-white"
+          ref={bookRef}
+          onFlip={(e) => {
+            const newPage = e.data;
+            setCurrentPage(newPage);
 
-          // إيقاف الصوت عند نهاية القصة
-          if (newPage >= storyPages.length + 1 && audioRef.current) {
-            audioRef.current.pause();
-            audioRef.current.currentTime = 0;
-            setIsPlaying(false);
-          }
-        }}
-        style={{ fontFamily: "'Cairo', sans-serif" }}
-      >
-        {/* الغلاف */}
-        <div className="bg-red-400 bg-no-repeat bg-cover bg-center">
-          {/* محتوى الغلاف */}
-        </div>
+            if (newPage >= storyPages.length + 1 && audioRef.current) {
+              audioRef.current.pause();
+              audioRef.current.currentTime = 0;
+              setIsPlaying(false);
+            }
+          }}
+          style={{ fontFamily: "'Cairo', sans-serif" }}
+        >
+          {/* الغلاف */}
+          <div className="w-full h-full bg-[url('/images/ttt.jpg')] bg-center bg-cover bg-no-repeat flex items-center justify-center text-white font-bold text-3xl border border-gray-300 shadow-inner">
+          </div>
 
-        {/* صفحات القصة */}
-        {storyPages.map((page, index) => (
-          <div
-            key={index}
-            className={`${Theme.paimary} p-6 text-lg flex flex-col md:flex-row items-center gap-6 rounded-xl border border-yellow-300 shadow-inner `}
-            style={{ lineHeight: 1.8 }}
-          >
-            <img
-              src={page.image}
-              alt={`page-${index}`}
-              className="w-full h-52 rounded shadow mb-20"
-            />
-            <p className="text-gray-900 leading-relaxed text-justify md:w-2/3">
-              {page.text}
+          {/* صفحات القصة */}
+          {storyPages.map((page, index) => (
+            <div
+              key={index}
+              className={`bg-white border border-gray-300 shadow-inner p-6 flex flex-col items-center justify-start gap-4`}
+              style={{ minHeight: 450 }}
+            >
+              <img
+                src={page.image}
+                alt={`page-${index}`}
+                className="w-full max-h-64 object-contain rounded shadow"
+              />
+              <p className="pt-10 text-gray-900 text-lg leading-relaxed text-justify">
+                {page.text}
+              </p>
+            </div>
+          ))}
+
+          {/* النهاية */}
+          <div className="bg-green-100 border border-green-300 shadow-inner flex flex-col items-center justify-center text-2xl font-bold text-green-800 rounded-xl select-none p-8">
+            <p>✅ The End</p>
+            <p className="text-base mt-3 font-semibold">
+              Thank you for reading!
             </p>
           </div>
-        ))}
-
-        {/* صفحة النهاية */}
-        <div className="bg-green-100 flex flex-col items-center justify-center text-2xl font-bold text-green-800 rounded-xl select-none p-8">
-          <p>✅ The End</p>
-          <p className="text-base mt-3 font-semibold">Thank you for reading!</p>
-        </div>
-      </HTMLFlipBook>
+        </HTMLFlipBook>
+      </div>
     </div>
   );
 }
