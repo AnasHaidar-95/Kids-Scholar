@@ -1,28 +1,43 @@
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/footer";
+import {
+  FaStar,
+  FaSmile,
+  FaRocket,
+  FaArrowLeft,
+  FaVolumeUp
+} from "react-icons/fa";
+
+// Floating icon component
+const FloatingIcon = ({ Icon, className }) => (
+  <Icon
+    className={`text-gray-500 opacity-20 text-[4rem] lg:text-[6rem] absolute animate-float ${className}`}
+  />
+);
 
 const items = [
-  { number: 1, label: "One " },
-  { number: 2, label: "Two " },
-  { number: 3, label: "Three " },
-  { number: 4, label: "Four " },
-  { number: 5, label: "Five " },
-  { number: 6, label: "Six " },
-  { number: 7, label: "Seven " },
-  { number: 8, label: "Eight " },
-  { number: 9, label: "Nine " },
-  { number: 10, label: "Ten " },
-  { number: 11, label: "Eleven " },
-  { number: 12, label: "Twelve " },
-  { number: 13, label: "Thirteen " },
-  { number: 14, label: "Fourteen " },
-  { number: 15, label: "Fifteen " },
-  { number: 16, label: "Sixteen " },
-  { number: 17, label: "Seventeen " },
-  { number: 18, label: "Eighteen " },
-  { number: 19, label: "Nineteen " },
-  { number: 20, label: "Twenty " },
+  { number: 1, label: "One" },
+  { number: 2, label: "Two" },
+  { number: 3, label: "Three" },
+  { number: 4, label: "Four" },
+  { number: 5, label: "Five" },
+  { number: 6, label: "Six" },
+  { number: 7, label: "Seven" },
+  { number: 8, label: "Eight" },
+  { number: 9, label: "Nine" },
+  { number: 10, label: "Ten" },
+  { number: 11, label: "Eleven" },
+  { number: 12, label: "Twelve" },
+  { number: 13, label: "Thirteen" },
+  { number: 14, label: "Fourteen" },
+  { number: 15, label: "Fifteen" },
+  { number: 16, label: "Sixteen" },
+  { number: 17, label: "Seventeen" },
+  { number: 18, label: "Eighteen" },
+  { number: 19, label: "Nineteen" },
+  { number: 20, label: "Twenty" },
 ];
 
 const CountLesson = () => {
@@ -35,55 +50,89 @@ const speak = (text) => {
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-US"; // Explicitly set to English
-  utterance.rate = 0.7; // Slower pace for kids
-  utterance.pitch = 1.2; // Slightly higher pitch for friendliness
+  utterance.lang = "en-US";
+  utterance.rate = 0.9;
 
-  window.speechSynthesis.cancel(); // Stop any ongoing speech
+  const voices = window.speechSynthesis.getVoices();
+
+  const preferredVoices = [
+    "Google US English",
+  ];
+
+  const femaleVoice =
+    voices.find((v) => preferredVoices.includes(v.name)) ||
+    voices.find(
+      (v) => v.lang.startsWith("en") && v.name.toLowerCase().includes("female")
+    ) ||
+    voices.find((v) => v.lang.startsWith("en"));
+
+  if (femaleVoice) {
+    utterance.voice = femaleVoice;
+  }
+
+  window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utterance);
 };
 
 
   return (
-    <div>
-      <div
-        className="min-h-screen p-40 flex flex-col items-center"
-        style={{
-          background:
-            "linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)",
-        }}
-      >
-        <button
-          onClick={() => navigate("/countVideo")}
-          className="mb-6 self-start bg-[#bb4fa9] hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-xl transition"
-        >
-          ⬅ Back
-        </button>
+   <div>
+     <div className="font-sans relative pt-30 overflow-hidden">
+      {/* Floating Icons Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <FloatingIcon Icon={FaStar} className="top-[10%] left-[5%]" />
+        <FloatingIcon Icon={FaSmile} className="top-[30%] left-[40%]" />
+        <FloatingIcon Icon={FaRocket} className="top-[40%] right-[15%]" />
+      </div>
 
-        <h1 className="text-5xl font-extrabold text-[#bb4fa9] mb-8 tracking-wide">
-          Count With Us!
-        </h1>
-        <p className="mb-10 text-center text-[#bb4fa9] text-lg font-medium">
-          Let's learn to count together
-        </p>
+      {/* Main Content */}
+      <div className="relative z-10 bg-white py-16 px-6 sm:px-10 lg:px-20 rounded-b-3xl">
+        <div className="max-w-6xl mx-auto">
+          <button
+            onClick={() => navigate("/countVideo")}
+            className="bg-[#bb4fa9] hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition flex items-center mb-8"
+          >
+            <FaArrowLeft className="mr-2" /> Back
+          </button>
 
-        <div className="grid grid-cols-4 gap-6">
-          {items.map(({ number, label }) => (
-            <div
-              key={number}
-              className="bg-yellow-100 border-4 border-yellow-400 rounded-xl p-4 shadow-lg flex flex-col items-center justify-center text-center transform hover:scale-105 transition duration-300 cursor-pointer"
-              onClick={() => speak(label)}
-            >
-              <div className="text-4xl font-bold text-orange-700">{number}</div>
-              <div className="text-lg mt-2 font-medium text-gray-700">
-                {label}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-[#bb4fa9] mb-4">
+              Count With Us! <span className="text-[#f0c96a]">1-20</span>
+            </h1>
+            <p className="text-xl text-gray-700">
+              Click any number to hear it spoken aloud
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {items.map(({ number, label }) => (
+              <div
+                key={number}
+                className="bg-[#fff3f9] border-4 border-[#f0c96a] rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center text-center hover:scale-105 transition transform duration-300 cursor-pointer"
+                onClick={() => speak(label)}
+              >
+                <div className="text-5xl font-bold text-[#bb4fa9]">{number}</div>
+                <div className="text-xl mt-2 font-medium text-gray-700 flex items-center">
+                  {label} <FaVolumeUp className="ml-2 text-[#f0c96a]" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-      <Footer/>
+
+      {/* Robot Character */}
+      <div className="absolute bottom-[15%] right-10 p-4 z-10 pointer-events-none">
+        <img
+          src="../images/robot1.png"
+          alt="Counting robot helper"
+          className="w-40 lg:w-70 object-contain"
+        />
+      </div>
+
+      <Footer />
     </div>
+   </div>
   );
 };
 

@@ -69,7 +69,7 @@ const token = localStorage.getItem("authToken");
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full px-6 py-4 rounded-b-2xl z-40 transition-colors duration-300 flex items-center justify-between ${
+        className={`fixed top-0 left-0 w-full px-6 py-0 rounded-b-2xl z-40 transition-colors duration-300 flex items-center justify-between ${
           isHomePage && !scrolled
             ? "bg-transparent text-[#bb4fa9] backdrop-blur-sm"
             : "bg-white text-gray-800 shadow-lg"
