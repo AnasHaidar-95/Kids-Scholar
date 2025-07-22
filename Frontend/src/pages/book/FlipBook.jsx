@@ -2,11 +2,10 @@ import HTMLFlipBook from "react-pageflip";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { Theme } from "../../../theme";
-import anwrea from "../../../images/story/nono/nono.png";
 import Footer from "../../components/footer";
+
 export default function FlipBook() {
-  const { id } = useParams(); // معرف القصة من الرابط
+  const { id } = useParams();
   const bookRef = useRef();
   const audioRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -16,15 +15,13 @@ export default function FlipBook() {
   const [storyPages, setStoryPages] = useState([]);
   const [coverImage, setCoverImage] = useState("");
 
-  // ⬇️ تحميل القصة حسب ID
+  // تحميل القصة حسب ID
   useEffect(() => {
     const fetchStory = async () => {
       try {
         const res = await axios.get(`http://localhost:5300/api/stories/${id}`);
         setStoryPages(res.data.pages || []);
-        setCoverImage(
-          res.data.cover ||"./images/story/nono/nono.png"
-        );
+        setCoverImage(res.data.cover || "/images/story/nono/nono.png");
       } catch (error) {
         console.error("Error loading story:", error);
       }
@@ -32,7 +29,7 @@ export default function FlipBook() {
     fetchStory();
   }, [id]);
 
-  // ⬇️ تحميل الأصوات من النظام
+  // تحميل الأصوات
   useEffect(() => {
     const loadVoices = () => {
       const allVoices = speechSynthesis.getVoices();
@@ -44,7 +41,7 @@ export default function FlipBook() {
     loadVoices();
   }, []);
 
-  // ⬇️ قراءة الصفحات بالصوت
+  // قراءة النصوص بصوت
   const readAllTexts = (texts, index = 0) => {
     if (index >= texts.length) {
       setTimeout(() => {
@@ -56,7 +53,6 @@ export default function FlipBook() {
     if (index === 0) speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(texts[index]);
-
     const selectedVoice =
       voices.find(
         (v) =>
@@ -68,10 +64,12 @@ export default function FlipBook() {
     if (selectedVoice) utterance.voice = selectedVoice;
     utterance.lang = "en-US";
     utterance.rate = 0.95;
+
     utterance.onend = () => readAllTexts(texts, index + 1);
     speechSynthesis.speak(utterance);
   };
 
+  // تشغيل القراءة عند الانتقال للصفحة التالية
   useEffect(() => {
     if (currentPage === 0 || voices.length === 0 || storyPages.length === 0)
       return;
@@ -86,6 +84,7 @@ export default function FlipBook() {
     if (textsToRead.length > 0) readAllTexts(textsToRead);
   }, [currentPage, voices, audioStarted]);
 
+  // عند إغلاق المكون
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -107,7 +106,7 @@ export default function FlipBook() {
       audioRef.current.pause();
     } else {
       audioRef.current.play().catch(() => {
-        console.warn("تحتاج تفاعل المستخدم لتشغيل الصوت");
+        console.warn("🔇 تحتاج تفاعل المستخدم لتشغيل الصوت");
       });
     }
 
@@ -116,32 +115,31 @@ export default function FlipBook() {
   };
 
   return (
-    <div className="flex flex-col items-center p-10 px-4 overflow-hidden bg-blue-500 min-h-screen">
-      {/* زر تشغيل/إيقاف الموسيقى */}
-      <button
-        onClick={handleToggleAudio}
-        className="mb-4 px-5 py-2 bg-purple-600 text-white font-semibold rounded hover:bg-purple-700 transition"
-      >
-        {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
-      </button>
+    <div>
+      <div className="flex flex-col items-center p-40 px-4 overflow-hidden bg-blue-500 min-h-screen">
+        <button
+          onClick={handleToggleAudio}
+          className="mb-4 px-5 py-2 bg-purple-600 text-white font-semibold rounded hover:bg-purple-700 transition"
+        >
+          {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
+        </button>
 
-      {/* الكتاب */}
-      <div className="border-blue-500 border w-full max-w-5xl flex justify-center">
-        <HTMLFlipBook
-          width={350}
-          height={450}
-          size="stretch"
-          showCover={true}
-          mobileScrollSupport={true}
-          maxShadowOpacity={0.5}
-          drawShadow={true}
-          useMouseEvents={true}
-          className="shadow-xl rounded-lg border border-gray-300 bg-white"
-          ref={bookRef}
-          onFlip={(e) => {
-            const newPage = e.data;
-            setCurrentPage(newPage);
-
+        <div className="border-blue-500 border w-full max-w-5xl flex justify-center">
+          {storyPages.length > 0 ? (
+            <HTMLFlipBook
+              width={450}
+              height={450}
+              size="stretch"
+              showCover={true}
+              mobileScrollSupport={true}
+              maxShadowOpacity={0.5}
+              drawShadow={true}
+              useMouseEvents={true}
+              className="shadow-xl rounded-lg border border-gray-300 bg-white"
+              ref={bookRef}
+              onFlip={(e) => {
+                const newPage = e.data;
+                setCurrentPage(newPage);
                 if (newPage >= storyPages.length + 1 && audioRef.current) {
                   audioRef.current.pause();
                   audioRef.current.currentTime = 0;
@@ -156,7 +154,6 @@ export default function FlipBook() {
                   src={coverImage}
                   alt="Cover"
                   className="w-full h-full object-cover"
-                  style={{ display: "block" }}
                 />
               </div>
 
@@ -178,7 +175,7 @@ export default function FlipBook() {
                 </div>
               ))}
 
-              {/* النهاية */}
+              {/* صفحة النهاية */}
               <div className="bg-green-100 border shadow-inner flex flex-col items-center justify-center text-2xl font-bold text-green-800 rounded-xl select-none p-8">
                 <p>✅ The End</p>
                 <p className="text-base mt-3 font-semibold">
