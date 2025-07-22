@@ -55,6 +55,7 @@ export const login = asyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             token: generateToken(user._id),
+            type:user.type
         });
     } else {
         res.status(401);

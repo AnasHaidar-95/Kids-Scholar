@@ -19,14 +19,17 @@ const LoginPage = () => {
         }
       );
 
-      // حفظ التوكن
       const token = response.data.token;
       localStorage.setItem("authToken", token);
-
-      // حفظ بيانات المستخدم (اختياري)
       localStorage.setItem("userInfo", JSON.stringify(response.data));
+      console.log(response.data);
 
-      navigate("/");
+      // توجه حسب النوع مباشرة من البيانات
+      if (response.data.type === "admin") {
+        navigate("/AdminDashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       alert("Login failed: " + (error.response?.data?.message || "Error"));
     }

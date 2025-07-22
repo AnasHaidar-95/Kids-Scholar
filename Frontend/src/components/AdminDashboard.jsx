@@ -60,7 +60,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col md:flex-row bg-gray-100 min-h-screen">
       <Sidebar />
-      <main className="flex-1 p-4 sm:p-6">
+      <main className="flex-1 p-30 ">
         {/* Cards: stack on xs, 2 columns on sm, 4 columns on lg */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Card title="Total Users" value={userCount} />

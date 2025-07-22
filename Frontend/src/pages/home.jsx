@@ -341,7 +341,7 @@ const Homepage = () => {
       {/* Robot */}
       <div className="absolute top-230 right-10 p-4 z-10 pointer-events-none">
         <img
-          src="../images/robot1.png"
+          src="../images/robot.png"
           alt="robot image"
           className="w-40 lg:w-70 object-contain"
         />
