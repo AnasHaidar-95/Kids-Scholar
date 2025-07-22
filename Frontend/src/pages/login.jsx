@@ -22,7 +22,6 @@ const LoginPage = () => {
       const token = response.data.token;
       localStorage.setItem("authToken", token);
       localStorage.setItem("userInfo", JSON.stringify(response.data));
-      console.log(response.data);
 
       // توجه حسب النوع مباشرة من البيانات
       if (response.data.type === "admin") {

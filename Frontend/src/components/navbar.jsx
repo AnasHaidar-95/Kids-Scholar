@@ -1,162 +1,3 @@
-// import React, { useState } from "react";
-// import {
-//   FaGamepad,
-//   FaBook,
-//   FaQuestionCircle,
-//   FaBookOpen,
-//   FaBars,
-//   FaTimes,
-//   FaHome,
-//   FaSignOutAlt,
-// } from "react-icons/fa";
-// import { Link, useNavigate } from "react-router-dom";
-
-// const Navbar = () => {
-//   const [menuOpen, setMenuOpen] = useState(false);
-//   const navigate = useNavigate();
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//     navigate("/login");
-//   };
-
-//   const handleLogin = () => {
-//     navigate("/login");
-//   };
-
-//   return (
-//     <>
-//       {/* Fixed Navbar */}
-//       <nav className="fixed top-0 left-0 w-full bg-gradient-to-b from-[#bb4fa9] to-[#bb4fa9]/80 text-white px-6 py-4 shadow-md z-40 backdrop-blur-md rounded-b-2xl">
-//         <div className="max-w-7xl mx-auto flex justify-between items-center">
-//           {/* Logo */}
-//           <Link to="/" className="flex items-center space-x-2">
-//             <img
-//               src="../images/logo1.png"
-//               alt="KidsScholar Logo"
-//               className="w-32 object-contain"
-//             />
-//           </Link>
-
-//           {/* Desktop Links */}
-//           <div className="hidden md:flex items-center space-x-10 text-lg font-semibold">
-//             <Link
-//               to="/"
-//               className="flex items-center gap-2 hover:text-[#E6E6FA] transition"
-//             >
-//               <FaHome className="text-2xl" />
-//               Home
-//             </Link>
-//             <Link
-//               to="/games"
-//               className="flex items-center gap-2 hover:text-[#E6E6FA] transition"
-//             >
-//               <FaGamepad className="text-2xl" />
-//               Games
-//             </Link>
-//             <Link
-//               to="/lessons"
-//               className="flex items-center gap-2 hover:text-[#E6E6FA] transition"
-//             >
-//               <FaBook className="text-2xl" />
-//               Lessons
-//             </Link>
-//             <Link
-//               to="/quizzes"
-//               className="flex items-center gap-2 hover:text-[#E6E6FA] transition"
-//             >
-//               <FaQuestionCircle className="text-2xl" />
-//               Quizzes
-//             </Link>
-//             <Link
-//               to="/stories"
-//               className="flex items-center gap-2 hover:text-[#E6E6FA] transition"
-//             >
-//               <FaBookOpen className="text-2xl" />
-//               Stories
-//             </Link>
-//           </div>
-
-//           {/* Right Actions */}
-//           <div className="flex items-center gap-4">
-//             {/* Mobile Menu Button */}
-//             <button
-//               className="md:hidden text-2xl hover:text-[#E6E6FA] transition"
-//               onClick={() => setMenuOpen(true)}
-//             >
-//               <FaBars />
-//             </button>
-
-//             {/* Login Button */}
-//             <button
-//               onClick={handleLogin}
-//               className="bg-white text-[#bb4fa9] font-bold px-5 py-2 rounded-xl hover:bg-[#f3d7ee] transition duration-200 shadow-md"
-//             >
-//               Login
-//             </button>
-//           </div>
-//         </div>
-//       </nav>
-
-//       {/* Spacer */}
-//       <div className="h-20 md:h-24" />
-
-//       {/* Sidebar for mobile */}
-//       {menuOpen && (
-//         <div className="fixed inset-0 z-50">
-//           <div
-//             className="absolute inset-0 bg-black/50"
-//             onClick={() => setMenuOpen(false)}
-//           />
-//           <div className="absolute top-0 left-0 w-72 h-full bg-[#bb4fa9] text-white p-6 shadow-lg flex flex-col space-y-6 text-lg z-50">
-//             <div className="flex justify-between items-center mb-6">
-//               <h2 className="text-2xl font-bold">Menu</h2>
-//               <button
-//                 onClick={() => setMenuOpen(false)}
-//                 className="text-2xl hover:text-[#E6E6FA]"
-//               >
-//                 <FaTimes />
-//               </button>
-//             </div>
-//             <Link
-//               to="/games"
-//               className="flex items-center gap-3 hover:text-[#E6E6FA]"
-//             >
-//               <FaGamepad className="text-2xl" /> Games
-//             </Link>
-//             <Link
-//               to="/lessons"
-//               className="flex items-center gap-3 hover:text-[#E6E6FA]"
-//             >
-//               <FaBook className="text-2xl" /> Lessons
-//             </Link>
-//             <Link
-//               to="/quizzes"
-//               className="flex items-center gap-3 hover:text-[#E6E6FA]"
-//             >
-//               <FaQuestionCircle className="text-2xl" /> Quizzes
-//             </Link>
-//             <Link
-//               to="/stories"
-//               className="flex items-center gap-3 hover:text-[#E6E6FA]"
-//             >
-//               <FaBookOpen className="text-2xl" /> Stories
-//             </Link>
-//             <button
-//               onClick={handleLogout}
-//               className="flex items-center gap-3 hover:text-[#E6E6FA]"
-//             >
-//               <FaSignOutAlt className="text-2xl" /> Logout
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default Navbar;
-
 import React, { useState, useEffect } from "react";
 import {
   FaGamepad,
@@ -167,6 +8,7 @@ import {
   FaTimes,
   FaHome,
   FaSignOutAlt,
+  FaUserCircle,
 } from "react-icons/fa";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
@@ -175,8 +17,10 @@ const PINK = "#bb4fa9";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -188,16 +32,21 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
     setMenuOpen(false);
+    setShowDropdown(false);
+    navigate("/login");
   };
 
   const handleLogin = () => {
-    navigate("/login");
     setMenuOpen(false);
+    navigate("/login");
   };
 
   const isActive = (path) => location.pathname === path;
+
+  const isAdminRoute = location.pathname.startsWith("/AdminDashboard");
+
+  if (isAdminRoute) return null;
 
   const links = [
     { to: "/", label: "Home", icon: <FaHome className="text-2xl" /> },
@@ -236,7 +85,7 @@ const Navbar = () => {
             onClick={() => setMenuOpen(false)}
           >
             <img
-              src="../images/logo1.png"
+              src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753216648/logo_ydxler.png"
               alt="KidsScholar Logo"
               className="w-32 object-contain"
             />
@@ -259,7 +108,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 relative">
             {/* Mobile Menu Button */}
             <button
               className="md:hidden text-2xl text-[#bb4fa9] hover:text-white hover:shadow-[0_0_8px_#bb4fa9] transition duration-300"
@@ -269,13 +118,43 @@ const Navbar = () => {
               <FaBars />
             </button>
 
-            {/* Login Button */}
-            <button
-              onClick={handleLogin}
-              className={`bg-[#F0C96A] text-white font-bold px-5 py-2 rounded-xl hover:bg-pink-700 transition duration-200 shadow-md`}
-            >
-              Login
-            </button>
+            {/* Login / Profile */}
+            {!token ? (
+              <button
+                onClick={handleLogin}
+                className={`bg-[#F0C96A] text-white font-bold px-5 py-2 rounded-xl hover:bg-pink-700 transition duration-200 shadow-md`}
+              >
+                Login
+              </button>
+            ) : (
+              <div className="relative">
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="text-[#bb4fa9] text-3xl"
+                >
+                  <FaUserCircle />
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 bg-white border rounded-xl shadow-lg py-2 w-40 z-50 text-[#bb4fa9]">
+                    <button
+                      onClick={() => {
+                        navigate("/profile");
+                        setShowDropdown(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      Profile
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>
@@ -283,14 +162,12 @@ const Navbar = () => {
       {/* Sidebar for mobile */}
       {menuOpen && (
         <div className="fixed inset-0 z-50 flex">
-          {/* خلفية سوداء شفافة */}
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setMenuOpen(false)}
             aria-label="Close menu"
           />
 
-          {/* القائمة الجانبية */}
           <div className="relative w-72 h-full bg-[#bb4fa9] text-white p-6 shadow-lg flex flex-col space-y-6 text-lg z-50">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Menu</h2>
@@ -324,16 +201,18 @@ const Navbar = () => {
               </Link>
             ))}
 
-            <button
-              onClick={handleLogout}
-              className="group relative flex items-center gap-3 text-white/80 hover:text-white transition duration-300"
-            >
-              <FaSignOutAlt className="text-2xl" />
-              <span className="relative z-10">Logout</span>
-              <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300">
-                <span className="absolute inset-0 blur-[6px] bg-white opacity-20 rounded-full pointer-events-none mix-blend-screen" />
-              </span>
-            </button>
+            {token && (
+              <button
+                onClick={handleLogout}
+                className="group relative flex items-center gap-3 text-white/80 hover:text-white transition duration-300"
+              >
+                <FaSignOutAlt className="text-2xl" />
+                <span className="relative z-10">Logout</span>
+                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300">
+                  <span className="absolute inset-0 blur-[6px] bg-white opacity-20 rounded-full pointer-events-none mix-blend-screen" />
+                </span>
+              </button>
+            )}
           </div>
         </div>
       )}
