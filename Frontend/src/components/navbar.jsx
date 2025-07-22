@@ -272,7 +272,7 @@ const Navbar = () => {
             {/* Login Button */}
             <button
               onClick={handleLogin}
-              className={`bg-[${PINK}] text-white font-bold px-5 py-2 rounded-xl hover:bg-pink-700 transition duration-200 shadow-md`}
+              className={`bg-[#F0C96A] text-white font-bold px-5 py-2 rounded-xl hover:bg-pink-700 transition duration-200 shadow-md`}
             >
               Login
             </button>
