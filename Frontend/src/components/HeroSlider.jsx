@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 const slides = [
   {
     image:
-      "https://images.pexels.com/photos/4143793/pexels-photo-4143793.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      "https://res.cloudinary.com/dos9zxky6/image/upload/v1753201434/%D0%B4%D0%B5%D1%82%D0%B8_prmccd.jpg",
     subtitle: "Welcome to KidsScholar",
     title: ["Learn", "With Joy"],
     buttonText: "Get Started",
@@ -15,10 +15,10 @@ const slides = [
   },
   {
     image:
-      "https://images.pexels.com/photos/4143798/pexels-photo-4143798.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      "https://res.cloudinary.com/dos9zxky6/image/upload/v1753201434/Everyone_can_learn_oajvuf.jpg",
     subtitle: "Play and Grow Together",
     title: ["Play", "and Learn"],
-    buttonText: "JGet Started",
+    buttonText: "Get Started",
     buttonLink: "/login",
   },
   {
@@ -59,8 +59,8 @@ const HeroSlider = () => {
               className="w-full h-full object-cover object-center"
               style={{ maxHeight: "100vh" }}
             />
-            <div className="absolute inset-0 bg-black/30 flex flex-col justify-center items-start px-6 md:px-16">
-              <p className="bg-white text-[#bb4fa9] px-3 py-1 rounded mb-3 font-medium">
+            <div className="absolute inset-0 bg-black/30 flex flex-col justify-end items-center text-center px-6 md:px-16 pb-100">
+              <p className="text-[#ffffff] px-3 py-1 rounded mb-3 text-2xl font-bold">
                 {slide.subtitle}
               </p>
               <h2 className="text-white text-3xl sm:text-5xl font-bold mb-4">
@@ -69,7 +69,7 @@ const HeroSlider = () => {
               </h2>
               <a
                 href={slide.buttonLink}
-                className="bg-[#bb4fa9] hover:bg-pink-600 text-white font-semibold px-5 py-2 rounded shadow transition"
+                className="bg-[#f0c96a] hover:bg-pink-600 text-white font-semibold px-5 py-2 rounded-2xl shadow transition"
               >
                 {slide.buttonText}
               </a>
