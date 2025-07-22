@@ -147,6 +147,16 @@ export const updateQuizz = asyncHandler(async (req, res) => {
 });
 
 
+export const countAllQuizzes = asyncHandler(async (req, res) => {
+  try {
+    const count = await Quizz.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: "Server error while counting Quizzes." });
+  }
+});
+
+
 // @desc    Delete a quizz
 // @route   DELETE /api/quizzes/:id
 // @access  Private/Admin
@@ -158,5 +168,34 @@ export const deleteQuizz = asyncHandler(async (req, res) => {
   } else {
     res.status(404);
     throw new Error("Quizz not found");
+  }
+});
+
+
+
+export const getAllQuizzesData = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    const totalQuizzes = await Quizz.countDocuments();
+
+    const quizzes = await Quizz.find()
+      .skip(skip)
+      .limit(limit)
+      .populate("lesson", "title") 
+      .populate("story", "title")
+      .lean();
+
+    res.json({
+      quizzes,
+      totalQuizzes,
+      totalPages: Math.ceil(totalQuizzes / limit),
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching quizzes:", error);
+    res.status(500).json({ message: "Server error fetching quizzes" });
   }
 });

@@ -75,3 +75,62 @@ export const deleteUserData = asyncHandler(async (req, res) => {
     res.status(500).send(`There Is An Error Deleting User Data .. ${error}`);
   }
 });
+
+export const countAllUsers = asyncHandler(async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: "Server error while counting users." });
+  }
+});
+
+// export const getAllUsers = asyncHandler(async (req, res) => {
+//   try {
+//     const students = await User.find({ type: "student" });
+//     res.json(students);
+//   } catch (error) {
+//     console.error("Error fetching users:", error);
+//     res.status(500).json({ message: "Server error fetching users" });
+//   }
+// });
+
+
+export const getAllUsersData = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 1;
+  const skip = (page - 1) * limit;
+
+  try {
+    const totalUsers = await User.countDocuments();
+    const users = await User.find({ type: "student" })
+      .skip(skip)
+      .limit(limit)
+      .select("-password")
+      .lean();
+
+    res.json({
+      users,
+      totalUsers,
+      totalPages: Math.ceil(totalUsers / limit),
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Server error fetching users" });
+  }
+});
+
+
+export const deleteUserForAdmin = asyncHandler(async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (deletedUser) {
+      res.status(200).json("User Data Has Been Deleted Successfully");
+    } else {
+      res.status(404).json("User not found");
+    }
+  } catch (error) {
+    res.status(500).send(`There Is An Error Deleting User Data .. ${error}`);
+  }
+});

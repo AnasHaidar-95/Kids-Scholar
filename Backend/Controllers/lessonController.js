@@ -75,3 +75,65 @@ export const deleteLesson = asyncHandler(async (req, res) => {
         throw new Error("Lesson not found");
     }
 });
+
+
+export const countAllLessons = asyncHandler(async (req, res) => {
+  try {
+    const count = await Lesson.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: "Server error while counting Lessons." });
+  }
+});
+
+// @desc    GET Lessons by Subject
+// @route   GET /api/lessons/count
+// @access  Private/Admin
+
+export const getLessonsCountBySubject = asyncHandler(async (req, res) => {
+  const result = await Lesson.aggregate([
+    {
+      $group: {
+        _id: "$subject",     // Group by subject
+        count: { $sum: 1 }   // Count lessons per subject
+      }
+    },
+    {
+      $sort: { count: -1 }   // Sort descending
+    },
+    {
+      $project: {
+        _id: 0,
+        subject: "$_id",     // Rename _id to subject
+        count: 1
+      }
+    }
+  ]);
+
+  res.json(result);
+});
+
+
+export const getAllLessonsData = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10; // set default limit
+  const skip = (page - 1) * limit;
+
+  try {
+    const totalLessons = await Lesson.countDocuments();
+    const lessons = await Lesson.find()
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    res.json({
+      lessons,
+      totalLessons,
+      totalPages: Math.ceil(totalLessons / limit),
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching lessons:", error);
+    res.status(500).json({ message: "Server error fetching lessons" });
+  }
+});

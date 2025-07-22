@@ -154,3 +154,65 @@ export const deleteProgress = asyncHandler(async (req, res) => {
     throw new Error("progress not found");
   }
 });
+
+// @desc   GET Content Completion Status
+// @route   GET /api/progress/count
+// @access  Private/Admin
+
+export const getContentCompletionStatusBreakdown = asyncHandler(async (req, res) => {
+  const result = await Progress.aggregate([
+    {
+      $group: {
+        _id: "$status",
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        status: "$_id",
+        count: 1
+      }
+    }
+  ]);
+
+  res.json(result);
+});
+
+
+// @desc    Get most played games with play count 
+// @route   GET /api/progress/games-count
+// @access  Private/Admin
+
+export const getMostPlayedGames = asyncHandler(async (req, res) => {
+  const result = await Progress.aggregate([
+    { $match: { contentType: "Game" } },
+    {
+      $group: {
+        _id: "$contentId",
+        playCount: { $sum: 1 }
+      }
+    },
+    { $sort: { playCount: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: "games",
+        localField: "_id",
+        foreignField: "_id",
+        as: "game"
+      }
+    },
+    { $unwind: "$game" },
+    {
+      $project: {
+        _id: 0,
+        gameId: "$game._id",
+        gameName: "$game.name",
+        playCount: 1
+      }
+    }
+  ]);
+
+  res.json(result);
+});

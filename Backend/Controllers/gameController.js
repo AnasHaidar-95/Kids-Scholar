@@ -71,3 +71,27 @@ export const deleteGame = asyncHandler(async (req, res) => {
         throw new Error("Game not found");
     }
 });
+
+export const getAllGamesData = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 1;
+  const skip = (page - 1) * limit;
+
+  try {
+    const totalGames = await Game.countDocuments();
+    const games = await Game.find()
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    res.json({
+      games,
+      totalGames,
+      totalPages: Math.ceil(totalGames / limit),
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching games:", error);
+    res.status(500).json({ message: "Server error fetching games" });
+  }
+});
