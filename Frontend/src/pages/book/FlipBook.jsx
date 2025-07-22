@@ -116,33 +116,31 @@ export default function FlipBook() {
   };
 
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center p-30 px-4 overflow-hidden bg-blue-500 min-h-screen">
-        {/* زر تشغيل الموسيقى */}
-        <button
-          onClick={handleToggleAudio}
-          className="mb-4 px-5 py-2 bg-purple-600 text-white font-semibold rounded hover:bg-purple-700 transition"
-        >
-          {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
-        </button>
+    <div className="flex flex-col items-center p-10 px-4 overflow-hidden bg-blue-500 min-h-screen">
+      {/* زر تشغيل/إيقاف الموسيقى */}
+      <button
+        onClick={handleToggleAudio}
+        className="mb-4 px-5 py-2 bg-purple-600 text-white font-semibold rounded hover:bg-purple-700 transition"
+      >
+        {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
+      </button>
 
-        {/* عرض الكتاب */}
-        <div className="border-blue-500 border w-full max-w-5xl flex justify-center">
-          {storyPages.length > 0 ? (
-            <HTMLFlipBook
-              width={450}
-              height={450}
-              size="stretch"
-              showCover={true}
-              mobileScrollSupport={true}
-              maxShadowOpacity={0.5}
-              drawShadow={true}
-              useMouseEvents={true}
-              className="shadow-xl rounded-lg border border-gray-300 bg-white"
-              ref={bookRef}
-              onFlip={(e) => {
-                const newPage = e.data;
-                setCurrentPage(newPage);
+      {/* الكتاب */}
+      <div className="border-blue-500 border w-full max-w-5xl flex justify-center">
+        <HTMLFlipBook
+          width={350}
+          height={450}
+          size="stretch"
+          showCover={true}
+          mobileScrollSupport={true}
+          maxShadowOpacity={0.5}
+          drawShadow={true}
+          useMouseEvents={true}
+          className="shadow-xl rounded-lg border border-gray-300 bg-white"
+          ref={bookRef}
+          onFlip={(e) => {
+            const newPage = e.data;
+            setCurrentPage(newPage);
 
                 if (newPage >= storyPages.length + 1 && audioRef.current) {
                   audioRef.current.pause();
