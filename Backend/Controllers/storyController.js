@@ -9,9 +9,10 @@ export const addNewStory = asyncHandler(async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         author: req.body.author,
+        language: req.body.language,
         category: req.body.category,
-        content: req.body.content,
-        image: req.body.image,
+        pages: req.body.pages,
+        section: req.body.section,
     });
     res.status(201).json({
         message: "Story Added Successfully.",
@@ -52,9 +53,10 @@ export const updateStory = asyncHandler(async (req, res) => {
         story.title = req.body.title || story.title;
         story.description = req.body.description || story.description;
         story.author = req.body.author || story.author;
+        story.language = req.body.language || story.language;
         story.category = req.body.category || story.category;
-        story.content = req.body.content || story.content;
-        story.image = req.body.image || story.image;
+        story.pages = req.body.pages || story.pages;
+        story.section = req.body.section || story.section;
 
         const updatedStory = await story.save();
         res.json(updatedStory);
