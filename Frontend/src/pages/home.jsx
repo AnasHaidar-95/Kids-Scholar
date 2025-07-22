@@ -155,6 +155,7 @@ import {
   FaMobileAlt,
 } from "react-icons/fa";
 import HeroSlider from "../components/HeroSlider";
+import Footer from "../components/footer";
 
 // Floating icon component
 const FloatingIcon = ({ Icon, className }) => (
@@ -345,6 +346,7 @@ const Homepage = () => {
           className="w-40 lg:w-70 object-contain"
         />
       </div>
+      <Footer/>
     </div>
   );
 };
