@@ -11,6 +11,7 @@ export const addNewStory = asyncHandler(async (req, res) => {
         author: req.body.author,
         language: req.body.language,
         category: req.body.category,
+        cover: req.body.cover,
         pages: req.body.pages,
         section: req.body.section,
     });
