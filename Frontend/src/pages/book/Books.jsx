@@ -2,31 +2,22 @@ import { Theme } from "../../../theme";
 
 const books = [
   {
-    title: "رحلة الأرنب الفضولي",
-    cover: "/images/back.jpeg",
+    cover: "/images/story/nono/nono.png",
   },
   {
-    title: "الكنز المفقود",
-    cover: "/images/ee.webp",
+    cover: "/images/story/planets/PlanetBackgound.png",
   },
   {
-    title: "مغامرات في الغابة",
-    cover: "/images/qqq.png",
-  },
-  {
-    title: "القط المغامر",
-    cover: "/images/rr.png",
-  },
-  {
-    title: "رحلة إلى القمر",
-    cover: "/images/ttt.jpg",
+    cover: "/images/story/sinse/sinse.png",
   },
 ];
 
 export default function Books() {
   return (
     <div className={`min-h-screen ${Theme.primaryLightBlue} p-6`}>
-      <h2 className="text-3xl font-bold text-center mb-10">📘 مكتبة القصص</h2>
+      <h2 className="text-3xl font-bold text-center mb-10">
+        📘 Story Library{" "}
+      </h2>
       <div className="flex flex-wrap justify-center gap-8">
         {books.map((book, index) => (
           <div key={index} className="group perspective w-44 h-64">
@@ -42,9 +33,6 @@ export default function Books() {
                   alt={book.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 bg-black bg-opacity-60 text-white text-center w-full text-sm py-2 z-30">
-                  {book.title}
-                </div>
               </div>
             </div>
           </div>

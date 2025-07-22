@@ -4,6 +4,7 @@ import MathPage from "./pages/GameMathPage";
 import Books from "./pages/book/Books";
 import FlipBook from "./pages/book/FlipBook";
 import FlipBook2 from "./pages/book/FlipBook2";
+import FlipBook3 from "./pages/book/FlipBook3";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/books" element={<Books />} />
         <Route path="/flipbooks" element={<FlipBook />} />
         <Route path="/flipbooks2" element={<FlipBook2 />} />
+        <Route path="/flipbooks3" element={<FlipBook3 />} />
       </Routes>
     </BrowserRouter>
   );

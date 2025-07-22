@@ -140,7 +140,7 @@ export default function FlipBook() {
           style={{ fontFamily: "'Cairo', sans-serif" }}
         >
           {/* الغلاف */}
-          <div className="w-full h-full bg-[url('/images/ttt.jpg')] bg-center bg-cover bg-no-repeat flex items-center justify-center text-white font-bold text-3xl border border-gray-300 shadow-inner">
+          <div className="w-full h-full bg-[url('/images/story/nono/nono.png')] bg-center bg-cover bg-no-repeat flex items-center justify-center text-white font-bold text-3xl border border-gray-300 shadow-inner">
           </div>
 
           {/* صفحات القصة */}
