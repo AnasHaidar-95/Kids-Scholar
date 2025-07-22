@@ -11,7 +11,6 @@ export const addNewStory = asyncHandler(async (req, res) => {
         author: req.body.author,
         language: req.body.language,
         category: req.body.category,
-        cover: req.body.cover,
         pages: req.body.pages,
         section: req.body.section,
     });
@@ -79,4 +78,69 @@ export const deleteStory = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error("Story not found");
     }
+});
+
+export const countAllStories = asyncHandler(async (req, res) => {
+  try {
+    const count = await Story.countDocuments();
+    res.status(200).json({ count });
+  } catch (error) {
+    res.status(500).json({ error: "Server error while counting stories." });
+  }
+});
+
+
+
+// @desc    Number of Stories per Section
+// @route   GET /api/stories/count
+// @access  Private/Admin
+
+export const getStoriesCountByCategory = asyncHandler(async (req, res) => {
+  const result = await Story.aggregate([
+    {
+      $group: {
+        _id: "$category",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { count: -1 },
+    },
+    {
+      $project: {
+        _id: 0,             // remove _id
+        category: "$_id",   // rename _id to category
+        count: 1            // include count as is
+      },
+    },
+  ]);
+
+  res.json(result);
+});
+
+
+
+export const getAllStoriesData = asyncHandler(async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    const totalStories = await Story.countDocuments();
+    const stories = await Story.find()
+      .skip(skip)
+      .limit(limit)
+      .select("-pages") // exclude pages
+      .lean();
+
+    res.json({
+      stories,
+      totalStories,
+      totalPages: Math.ceil(totalStories / limit),
+      page,
+    });
+  } catch (error) {
+    console.error("Error fetching stories:", error);
+    res.status(500).json({ message: "Server error fetching stories" });
+  }
 });

@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@import "slick-carousel/slick/slick-theme.css";
-@import "slick-carousel/slick/slick.css";
-
 
 .perspective {
   perspective: 1000px;

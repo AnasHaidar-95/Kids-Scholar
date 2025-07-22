@@ -21,10 +21,6 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cover: {
-    type: String,
-    require: false,
-  },
   pages: [
     {
       pageNumber: {

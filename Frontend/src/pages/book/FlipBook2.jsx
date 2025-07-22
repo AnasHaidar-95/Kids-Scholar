@@ -1,9 +1,9 @@
 import HTMLFlipBook from "react-pageflip";
 import { useEffect, useRef, useState } from "react";
-import { storyPages } from "../../../storyData";
+import { planetStory } from "../../../storyData";
 import { Theme } from "../../../theme";
 
-export default function FlipBook() {
+export default function FlipBook2() {
   const bookRef = useRef();
   const audioRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -63,11 +63,11 @@ export default function FlipBook() {
     const rightPage = currentPage + 1;
     const textsToRead = [];
 
-    if (leftPage - 1 < storyPages.length) {
-      textsToRead.push(storyPages[leftPage - 1].text);
+    if (leftPage - 1 < planetStory.length) {
+      textsToRead.push(planetStory[leftPage - 1].text);
     }
-    if (rightPage - 1 < storyPages.length) {
-      textsToRead.push(storyPages[rightPage - 1].text);
+    if (rightPage - 1 < planetStory.length) {
+      textsToRead.push(planetStory[rightPage - 1].text);
     }
 
     if (textsToRead.length > 0 && voices.length > 0) {
@@ -131,7 +131,7 @@ export default function FlipBook() {
             const newPage = e.data;
             setCurrentPage(newPage);
 
-            if (newPage >= storyPages.length + 1 && audioRef.current) {
+            if (newPage >= planetStory.length + 1 && audioRef.current) {
               audioRef.current.pause();
               audioRef.current.currentTime = 0;
               setIsPlaying(false);
@@ -140,11 +140,10 @@ export default function FlipBook() {
           style={{ fontFamily: "'Cairo', sans-serif" }}
         >
           {/* الغلاف */}
-          <div className="w-full h-full bg-[url('/images/ttt.jpg')] bg-center bg-cover bg-no-repeat flex items-center justify-center text-white font-bold text-3xl border border-gray-300 shadow-inner">
-          </div>
+          <div className="w-full h-full bg-[url('/images/ttt.jpg')] bg-center bg-cover bg-no-repeat flex items-center justify-center text-white font-bold text-3xl border border-gray-300 shadow-inner"></div>
 
           {/* صفحات القصة */}
-          {storyPages.map((page, index) => (
+          {planetStory.map((page, index) => (
             <div
               key={index}
               className={`bg-white border border-gray-300 shadow-inner p-6 flex flex-col items-center justify-start gap-4`}
