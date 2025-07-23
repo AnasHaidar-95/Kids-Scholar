@@ -16,13 +16,13 @@ import {
 } from "recharts";
 
 
-const revenueData = [
-  { month: "Jan", revenue: 4000 },
-  { month: "Feb", revenue: 3000 },
-  { month: "Mar", revenue: 5000 },
-  { month: "Apr", revenue: 7000 },
-  { month: "May", revenue: 6000 },
-  { month: "Jun", revenue: 8000 },
+const VisitorsData = [
+  { month: "Jan", visitor: 4000 },
+  { month: "Feb", visitor: 3000 },
+  { month: "Mar", visitor: 5000 },
+  { month: "Apr", visitor: 7000 },
+  { month: "May", visitor: 6000 },
+  { month: "Jun", visitor: 8000 },
 ];
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -30,11 +30,16 @@ export default function Charts() {
   const [progressCount, setProgressCount] = useState([]);
   const [gameCount, setGameCount] = useState([]);
   const [lessonsCount, setLessonsCount] = useState([]);
+const token = localStorage.getItem("authToken");
 
 
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/progresses/count")
+      .get("http://localhost:5300/api/progresses/count", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setProgressCount(response.data);
       })
@@ -45,7 +50,11 @@ export default function Charts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/progresses/count-game")
+      .get("http://localhost:5300/api/progresses/count-game", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setGameCount(response.data);
       })
@@ -55,7 +64,11 @@ export default function Charts() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/lessons/count")
+      .get("http://localhost:5300/api/lessons/count", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setLessonsCount(response.data);
       })
@@ -127,15 +140,15 @@ export default function Charts() {
 
       {/* Chart 4: Revenue Trend (Line Chart) */}
       <div className="bg-white shadow rounded p-4 h-120">
-        <h3 className="text-lg font-semibold mb-2">Revenue Trend</h3>
+        <h3 className="text-lg font-semibold mb-2">Total Website Visitors</h3>
         <ResponsiveContainer width="100%" height="80%">
-          <LineChart data={revenueData}>
+          <LineChart data={VisitorsData}>
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
             <Line
               type="monotone"
-              dataKey="revenue"
+              dataKey="visitor"
               stroke="#ff7300"
               strokeWidth={2}
             />

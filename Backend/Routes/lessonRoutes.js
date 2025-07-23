@@ -16,12 +16,11 @@ const router = express.Router();
 
 router.route("/").get(getAllLessons).post(protect, admin, addNewLesson);
 router.route("/all").get(getAllLessonsData)
-router.route("/count").get(getLessonsCountBySubject)
-router.route("/countAll").get(countAllLessons)
+router.route("/count").get(protect,admin,getLessonsCountBySubject)
+router.route("/countAll").get(protect,admin,countAllLessons)
 router
     .route("/:id")
     .get(getLessonById)
     .patch(protect, admin, updateLesson)
-    .delete(deleteLesson);
-    // .delete(protect, admin, deleteLesson);
+    .delete(protect,admin,deleteLesson);
 export default router;

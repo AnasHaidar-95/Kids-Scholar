@@ -16,7 +16,7 @@ export default function GamePage() {
     />
   );
  return (
-   <div className="flex flex-col h-280 font-sans relative overflow-hidden bg-[#94cffd] pt-20">
+   <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] pt-20">
      {/* Background Floating Icons */}
      <div className="absolute inset-0 z-0 pointer-events-none">
        <FloatingIcon Icon={FaCalculator} style={{ top: "25%", left: "8%" }} />
@@ -32,22 +32,22 @@ export default function GamePage() {
          {/* Math Game */}
          <div
            onClick={() => navigate("/math-quiz")}
-           className="relative bg-white rounded-3xl shadow-[0px_10px_25px_rgba(0,0,0,0.1)] p-6 cursor-pointer transition-transform hover:-translate-y-2 border-t-[6px] border-[#87eb9d]"
+           className="relative bg-white rounded-3xl shadow-[0px_10px_25px_rgba(0,0,0,0.1)] p-6 cursor-pointer transition-transform hover:-translate-y-2 border-t-[6px] border-[#f0c96a]"
          >
-           <Calculator className="text-5xl text-[#87eb9d] mb-4 mx-auto" />
+           <Calculator className="text-5xl text-[#f0c96a] mb-4 mx-auto" />
            <h2 className="text-2xl font-bold text-[#bb4fa9] mb-2">Math</h2>
            <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
              Practice addition, subtraction and multiplication!
            </p>
-           <Calculator className="absolute text-[#bb4fa9] text-[8rem] opacity-5 bottom-2 right-2" />
+           <Calculator className="absolute text-[#f0c96a] text-[8rem] opacity-5 bottom-2 right-2" />
          </div>
 
          {/* Science Game */}
          <div
            onClick={() => navigate("/science")}
-           className="relative bg-white rounded-3xl shadow-[0px_10px_25px_rgba(0,0,0,0.1)] p-6 cursor-pointer transition-transform hover:-translate-y-2 border-t-[6px] border-[#4ade80]"
+           className="relative bg-white rounded-3xl shadow-[0px_10px_25px_rgba(0,0,0,0.1)] p-6 cursor-pointer transition-transform hover:-translate-y-2 border-t-[6px] border-[#f0c96a]"
          >
-           <BrainCircuit className="text-5xl text-[#4ade80] mb-4 mx-auto" />
+           <BrainCircuit className="text-5xl text-[#f0c96a] mb-4 mx-auto" />
            <h2 className="text-2xl font-bold text-[#bb4fa9] mb-2">Science</h2>
            <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
              Discover space, animals and fun nature facts!
@@ -57,7 +57,7 @@ export default function GamePage() {
        </div>
      </main>
 
-     <Footer />
+     {/* <Footer /> */}
    </div>
  );
 

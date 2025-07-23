@@ -15,10 +15,15 @@ export default function Dashboard() {
   const [storiesCount, setStoriesCount] = useState(0);
   const [quizzesCount, setQuizzesCount] = useState(0);
   const [lessonsCount, setLessonsCount] = useState(0);
+const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/users/count")
+      .get("http://localhost:5300/api/users/count", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setUserCount(response.data.count);
       })
@@ -28,7 +33,11 @@ export default function Dashboard() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/stories/countAll")
+      .get("http://localhost:5300/api/stories/countAll", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setStoriesCount(response.data.count);
       })
@@ -38,7 +47,11 @@ export default function Dashboard() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/quizzes/countAll")
+      .get("http://localhost:5300/api/quizzes/countAll", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setQuizzesCount(response.data.count);
       })
@@ -48,7 +61,11 @@ export default function Dashboard() {
   }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5300/api/lessons/countAll")
+      .get("http://localhost:5300/api/lessons/countAll", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setLessonsCount(response.data.count);
       })

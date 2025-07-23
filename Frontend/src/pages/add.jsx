@@ -43,7 +43,7 @@ const AddPage = () => {
   ];
 
  return (
-   <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-[#94cffd] pt-10">
+   <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] pt-10">
      {/* Floating Icons Background */}
      <div className="absolute inset-0 z-0 pointer-events-none">
        <FloatingIcon Icon={FaStar} className="top-[10%] left-[5%]" />

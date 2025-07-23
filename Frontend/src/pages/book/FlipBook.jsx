@@ -15,11 +15,17 @@ export default function FlipBook() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [storyPages, setStoryPages] = useState([]);
   const [coverImage, setCoverImage] = useState("");
+  const token = localStorage.getItem("authToken");
+
 
   useEffect(() => {
     const fetchStory = async () => {
       try {
-        const res = await axios.get(`http://localhost:5300/api/stories/${id}`);
+        const res = await axios.get(`http://localhost:5300/api/stories/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setStoryPages(res.data.pages || []);
         setCoverImage(res.data.cover || "./images/story/nono/nono.png");
       } catch (error) {
@@ -114,7 +120,8 @@ export default function FlipBook() {
   );
 
   return (
-    <div className="bg-[#94cffd] min-h-screen flex flex-col items-center justify-center py-40 px-4">
+    <div className="bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] min-h-screen flex flex-col items-center justify-center py-20 px-4 relative">
+      {/* Floating Icons */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FloatingIcon Icon={FaPlus} className="top-[10%] left-[5%]" />
         <FloatingIcon Icon={FaMinus} className="top-[20%] left-[40%]" />
@@ -123,77 +130,87 @@ export default function FlipBook() {
         <FloatingIcon Icon={FaRocket} className="top-[40%] left-[13%]" />
         <FloatingIcon Icon={FaEquals} className="bottom-[28%] left-[5%]" />
       </div>
+
+      {/* Audio Toggle Button */}
       <button
         onClick={handleToggleAudio}
-        className="mb-6 px-6 py-2 bg-[#bb4fa9] text-white font-bold rounded-full shadow hover:bg-[#a94694] transition"
+        className="z-10 mb-6 px-6 py-2 bg-[#bb4fa9] text-white font-bold rounded-full shadow hover:bg-[#a94694] transition"
       >
         {isPlaying ? "🔇 Pause Music" : "🔊 Play Music"}
       </button>
 
-      <div className="w-full max-w-5xl border-2 border-[#f0c96a] rounded-xl shadow-2xl bg-white overflow-hidden">
+      {/* Book Container */}
+      <div className="z-10 w-full max-w-6xl mx-auto border-2 border-[#f0c96a] rounded-xl shadow-2xl bg-white overflow-hidden">
         {storyPages.length > 0 ? (
-          <HTMLFlipBook
-            width={350}
-            height={450}
-            size="stretch"
-            showCover={true}
-            mobileScrollSupport={true}
-            maxShadowOpacity={0.5}
-            drawShadow={true}
-            useMouseEvents={true}
-            className="book rounded-xl"
-            ref={bookRef}
-            onFlip={(e) => {
-              const newPage = e.data;
-              setCurrentPage(newPage);
+          <div className="w-full flex justify-center items-center">
+            <HTMLFlipBook
+              width={window.innerWidth < 640 ? 280 : 400}
+              height={window.innerWidth < 640 ? 360 : 500}
+              size="stretch"
+              showCover={true}
+              mobileScrollSupport={true}
+              maxShadowOpacity={0.5}
+              drawShadow={true}
+              useMouseEvents={true}
+              className="book rounded-xl"
+              ref={bookRef}
+              onFlip={(e) => {
+                const newPage = e.data;
+                setCurrentPage(newPage);
 
-              if (newPage >= storyPages.length + 1 && audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current.currentTime = 0;
-                setIsPlaying(false);
-              }
-            }}
-            style={{ fontFamily: "'Cairo', sans-serif" }}
-          >
-            <div className="w-full h-full bg-white">
-              <img
-                src={coverImage}
-                alt="Cover"
-                className="w-full h-full object-cover rounded-xl"
-              />
-            </div>
-
-            {storyPages.map((page, index) => (
-              <div
-                key={index}
-                className="bg-white border border-gray-200 p-6 flex flex-col items-center justify-start gap-4 text-gray-800 shadow-inner rounded-xl"
-                style={{ minHeight: 450 }}
-              >
+                if (newPage >= storyPages.length + 1 && audioRef.current) {
+                  audioRef.current.pause();
+                  audioRef.current.currentTime = 0;
+                  setIsPlaying(false);
+                }
+              }}
+              style={{ fontFamily: "'Cairo', sans-serif" }}
+            >
+              {/* Cover Page */}
+              <div className="w-full h-full bg-white">
                 <img
-                  src={page.imageUrl}
-                  alt={`page-${index}`}
-                  className="w-full max-h-64 object-contain rounded shadow"
+                  src={coverImage}
+                  alt="Cover"
+                  className="w-full h-full object-cover rounded-xl"
                 />
-                <p className="pt-6 text-lg leading-relaxed text-center">
-                  {page.text}
+              </div>
+
+              {/* Story Pages */}
+              {storyPages.map((page, index) => (
+                <div
+                  key={index}
+                  className="bg-white border border-gray-200 p-4 sm:p-6 flex flex-col items-center justify-start gap-4 text-gray-800 shadow-inner rounded-xl overflow-y-auto"
+                  style={{
+                    height: window.innerWidth < 640 ? "360px" : "500px",
+                    maxHeight: "100%",
+                  }}
+                >
+                  <img
+                    src={page.imageUrl}
+                    alt={`page-${index}`}
+                    className="w-full max-h-64 object-contain rounded shadow"
+                  />
+                  <p className="pt-4 sm:pt-6 text-base sm:text-lg leading-relaxed text-center">
+                    {page.text}
+                  </p>
+                </div>
+              ))}
+
+              {/* The End Page */}
+              <div className="bg-green-100 border shadow-inner flex flex-col items-center justify-center text-2xl font-bold text-green-800 rounded-xl p-6 sm:p-8">
+                <p>✅ The End</p>
+                <p className="text-base mt-3 font-semibold">
+                  Thank you for reading!
                 </p>
               </div>
-            ))}
-
-            <div className="bg-green-100 border shadow-inner flex flex-col items-center justify-center text-2xl font-bold text-green-800 rounded-xl p-8">
-              <p>✅ The End</p>
-              <p className="text-base mt-3 font-semibold">
-                Thank you for reading!
-              </p>
-            </div>
-          </HTMLFlipBook>
+            </HTMLFlipBook>
+          </div>
         ) : (
-          <p className="text-[#bb4fa9] text-xl font-semibold mt-10">
+          <p className="text-[#bb4fa9] text-xl font-semibold mt-10 text-center">
             📖 Loading story...
           </p>
         )}
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

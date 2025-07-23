@@ -13,12 +13,11 @@ import {
 const router = express.Router();
 
 router.route("/").get(getAllGames).post(protect, admin, addNewGame);
-router.route("/all").get(getAllGamesData);
+router.route("/all").get(protect, admin, getAllGamesData);
 router
   .route("/:id")
   .get(getGameById)
   .patch(protect, admin, updateGame)
-  .delete(deleteGame);
-// .delete(protect, admin, deleteGame);
+  .delete(protect, admin, deleteGame);
 
 export default router;

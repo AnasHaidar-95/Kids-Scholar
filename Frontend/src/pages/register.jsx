@@ -51,12 +51,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div
-      className="min-h-screen font-sans relative overflow-hidden flex items-center justify-center"
-      style={{
-        background: `linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)`,
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans relative overflow-hidden flex items-center justify-center">
       {/* خلفية زخرفية */}
       <FaStar className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute top-[10%] left-[5%] animate-pulse pointer-events-none" />
       <FaSmile className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute top-[50%] right-[10%] animate-pulse pointer-events-none" />
@@ -65,20 +60,20 @@ const RegisterPage = () => {
       {/* حاوية النموذج */}
       <div className="relative z-20 w-full max-w-md mx-4">
         <img
-          src="/images/fish.png"
+          src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753223890/fish_zswrme.png"
           className="absolute -top-10 -left-13 w-44 z-10 animate-float"
         />
         <img
-          src="/images/robot.png"
+          src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753223861/robot_lfu0gs.png"
           className="absolute -top-8 -right-15 w-48 z-10 animate-float"
         />
         <img
-          src="/images/oct.png"
+          src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753223904/oct_vvarxp.png"
           className="absolute -bottom-18 left-1/2 transform -translate-x-1/2 w-52 z-10 animate-float"
         />
 
         <div className="bg-white bg-opacity-80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white border-opacity-50">
-          <h2 className="text-3xl font-bold text-[#8A2BE2] mb-6 text-center">
+          <h2 className="text-3xl font-bold text-[#bb4fa9] mb-6 text-center">
             Create Your Account
           </h2>
 
@@ -91,7 +86,7 @@ const RegisterPage = () => {
               value={formData.name}
               placeholder="Full Name"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#8A2BE2]"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#bb4fa9]"
             />
             <input
               name="email"
@@ -100,7 +95,7 @@ const RegisterPage = () => {
               type="email"
               placeholder="Email"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#8A2BE2]"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#bb4fa9]"
             />
             <input
               name="phone"
@@ -108,7 +103,7 @@ const RegisterPage = () => {
               value={formData.phone}
               type="number"
               placeholder="Phone Number"
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#8A2BE2]"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#bb4fa9]"
             />
             <input
               name="password"
@@ -117,7 +112,7 @@ const RegisterPage = () => {
               type="password"
               placeholder="Password"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#8A2BE2]"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#bb4fa9]"
             />
             <input
               name="confirmPassword"
@@ -126,12 +121,12 @@ const RegisterPage = () => {
               type="password"
               placeholder="Confirm Password"
               required
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#8A2BE2]"
+              className="w-full px-4 py-2 border border-gray-200 rounded-lg bg-white bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-[#bb4fa9]"
             />
 
             <button
               type="submit"
-              className="w-full py-3 bg-[#8A2BE2] text-white rounded-lg hover:bg-[#7A1FD2] transition font-bold text-lg mt-4"
+              className="w-full py-3 bg-[#bb4fa9] text-white rounded-lg hover:bg-[#a03d8f] hover:shadow-lg hover:scale-105 transition-all duration-300 font-bold text-lg mt-4"
             >
               Sign Up
             </button>
@@ -139,7 +134,7 @@ const RegisterPage = () => {
 
           <p className="mt-4 text-center text-gray-600">
             Already have an account?{" "}
-            <a href="/login" className="text-[#8A2BE2] hover:underline">
+            <a href="/login" className="text-[#bb4fa9] hover:underline">
               Log in
             </a>
           </p>

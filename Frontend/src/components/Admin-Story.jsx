@@ -12,12 +12,20 @@ export default function UsersPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(20); // items per page
   const [totalPages, setTotalPages] = useState(1);
+const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     axios
-      .get(`http://localhost:5300/api/stories/all?page=${page}&limit=${limit}`)
+      .get(
+        `http://localhost:5300/api/stories/all?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setStories(res.data.stories);
         setTotalPages(res.data.totalPages);

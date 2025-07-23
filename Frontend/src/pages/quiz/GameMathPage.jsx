@@ -41,7 +41,7 @@ const FloatingIcon = ({ Icon, style }) => (
 function GameMathPage() {
   const navigate = useNavigate()
   return (
-    <div className="flex flex-col min-h-screen font-sans bg-gradient-to-br bg-[#94cffd]">
+    <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] pt-20">
       <button
         onClick={() => navigate(-1)}
         className="absolute top-24 left-6 bg-[#bb4fa9] text-white font-bold px-5 py-2 rounded-full shadow-lg hover:bg-[#a13d93] transition"

@@ -17,6 +17,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
       email: user.email,
       age: user.age,
       badges: user.badges,
+      image: user.image,
       type: user.type,
     });
   } else {
@@ -34,6 +35,7 @@ export const updateUserData = asyncHandler(async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         age: req.body.age,
+        image: req.body.image,
       },
       {
         new: true,

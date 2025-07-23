@@ -12,12 +12,16 @@ export default function GamesPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(20); // items per page
   const [totalPages, setTotalPages] = useState(1);
-
+const token = localStorage.getItem("authToken");
   useEffect(() => {
     setLoading(true);
     setError(null);
     axios
-      .get(`http://localhost:5300/api/games/all?page=${page}&limit=${limit}`)
+      .get(`http://localhost:5300/api/games/all?page=${page}&limit=${limit}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         setGames(res.data.games);
         setTotalPages(res.data.totalPages);
@@ -35,9 +39,13 @@ export default function GamesPage() {
 
 const handleDeleteGame = (gameId) => {
   axios
-    .delete(`http://localhost:5300/api/games/${gameId}`)
+    .delete(`http://localhost:5300/api/games/${gameId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then(() => {
-      setGames(prevGame => prevGame.filter(game => game._id !== gameId));
+      setGames((prevGame) => prevGame.filter((game) => game._id !== gameId));
     })
     .catch((error) => {
       console.error(`Error Deleting quizz: ${error}`);

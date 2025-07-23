@@ -5,6 +5,7 @@ function UploadImages() {
 const [file, setFile] = useState(null);
 const [url, setUrl] = useState("");
 const [loading, setLoading] = useState(false);
+const token = localStorage.getItem("authToken");
 
 const handleUpload = async () => {
   if (!file) return alert("يرجى اختيار صورة أولاً");
@@ -14,7 +15,11 @@ const handleUpload = async () => {
 
   try {
     setLoading(true);
-    const res = await axios.post("http://localhost:5300/api/upload", formData);
+    const res = await axios.post("http://localhost:5300/api/upload", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     setUrl(res.data.url);
   } catch (err) {
   console.error("خطأ أثناء الرفع:", err);

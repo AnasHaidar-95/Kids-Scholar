@@ -99,7 +99,7 @@ const Divide = () => {
        <FloatingIcon Icon={FaBook} style={{ top: "60%", right: "10%" }} />
        <FloatingIcon Icon={FaFlask} style={{ top: "40%", left: "50%" }} />
      </div>
-     <div className=" flex flex-col min-h-screen bg-[#94cffd] font-sans">
+     <div className=" flex flex-col min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans">
        {/* ⬅️ زر الرجوع */}
        <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 relative">
          <button

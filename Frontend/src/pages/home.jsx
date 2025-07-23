@@ -1,140 +1,3 @@
-// import React from "react";
-// import {
-//   FaCalculator,
-//   FaBook,
-//   FaFlask,
-//   FaAtom,
-//   FaPlus,
-//   FaEquals,
-//   FaFont,
-//   FaLaptopCode,
-// } from "react-icons/fa";
-// import { FaStar, FaSmile, FaRocket, FaPlay } from "react-icons/fa";
-
-// // Floating icon component
-// const FloatingIcon = ({ Icon, className }) => (
-//   <Icon
-//     className={`text-gray-500 opacity-20 text-[4rem] lg:text-[6rem] absolute animate-float ${className}`}
-//   />
-// );
-
-// const Homepage = () => {
-//   return (
-//     <div
-//       className="min-h-screen font-sans relative overflow-hidden pb-40 bg-[#87CEEB]"
-//       // style={{
-//       //   background: `linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)`,
-//       // }}
-//     >
-//       {/* Floating Icons Background */}
-//       <div className="absolute inset-0 z-0 pointer-events-none">
-//         <FloatingIcon Icon={FaCalculator} className="top-[10%] left-[5%]" />
-//         <FloatingIcon Icon={FaPlus} className="top-[20%] left-[40%]" />
-//         <FloatingIcon Icon={FaEquals} className="top-[70%] left-[10%]" />
-//         <FloatingIcon Icon={FaFont} className="top-[30%] right-[10%]" />
-//         <FloatingIcon Icon={FaBook} className="top-[60%] right-[15%]" />
-//         <FloatingIcon Icon={FaFlask} className="bottom-[15%] left-[25%]" />
-//         <FloatingIcon Icon={FaAtom} className="bottom-[20%] right-[20%]" />
-//         <FloatingIcon Icon={FaStar} className="top-[12%] right-[35%]" />
-//         <FloatingIcon Icon={FaSmile} className="bottom-[8%] right-[5%]" />
-//         <FloatingIcon Icon={FaRocket} className="top-[40%] left-[15%]" />
-//         <FloatingIcon Icon={FaPlay} className="bottom-[28%] left-[10%]" />
-//       </div>
-
-//       {/* Hero Section */}
-//       <section className="relative z-10 py-20 px-6 sm:px-10 lg:px-20 text-center max-w-5xl mx-auto">
-//         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-[#bb4fa9] mb-6">
-//           Welcome to <span className="text-[#FFFACD]">KidsScholar</span>!
-//         </h1>
-//         <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
-//           Fun learning for Math, English, Science & Programming. Explore
-//           exciting games, lessons, and quizzes made just for kids!
-//         </p>
-//       </section>
-
-//       {/* Subject Cards Grid 2x2 */}
-//       <section className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 lg:px-32 py-10 z-10 relative">
-//         {/* Math */}
-//         <div className="relative bg-[#ffffff] rounded-2xl shadow-lg p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden">
-//           <FaCalculator className="text-5xl text-blue-500 mx-auto mb-4 z-10 relative" />
-//           <h2 className="text-2xl font-bold text-blue-600 mb-2 z-10 relative">
-//             Math Magic
-//           </h2>
-//           <p className="text-gray-600 z-10 relative">
-//             Practice numbers, shapes, puzzles, and logic in a fun way!
-//           </p>
-//           <FaCalculator className="absolute text-gray-300 text-[8rem] opacity-10 bottom-0 right-0" />
-//         </div>
-
-//         {/* English */}
-//         <div className="relative bg-[#ffffff] rounded-2xl shadow-lg p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden">
-//           <FaBook className="text-5xl text-red-500 mx-auto mb-4 z-10 relative" />
-//           <h2 className="text-2xl font-bold text-red-600 mb-2 z-10 relative">
-//             English Fun
-//           </h2>
-//           <p className="text-gray-600 z-10 relative">
-//             Learn new words, stories, grammar, and reading skills.
-//           </p>
-//           <FaBook className="absolute text-gray-300 text-[8rem] opacity-10 bottom-0 right-0" />
-//         </div>
-
-//         {/* Science */}
-//         <div className="relative bg-[#ffffff] rounded-2xl shadow-lg p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden">
-//           <FaFlask className="text-5xl text-green-500 mx-auto mb-4 z-10 relative" />
-//           <h2 className="text-2xl font-bold text-green-600 mb-2 z-10 relative">
-//             Cool Science
-//           </h2>
-//           <p className="text-gray-800 z-10 relative">
-//             Explore animals, plants, planets, and cool experiments!
-//           </p>
-//           <FaFlask className="absolute text-gray-300 text-[8rem] opacity-10 bottom-0 right-0" />
-//         </div>
-
-//         {/* Programming */}
-//         <div className="relative bg-[#ffffff] rounded-2xl shadow-lg p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden">
-//           <FaLaptopCode className="text-5xl text-purple-500 mx-auto mb-4 z-10 relative" />
-//           <h2 className="text-2xl font-bold text-purple-600 mb-2 z-10 relative">
-//             Programming Fun
-//           </h2>
-//           <p className="text-gray-700 z-10 relative">
-//             Learn coding basics, logic games, and create cool animations!
-//           </p>
-//           <FaLaptopCode className="absolute text-gray-300 text-[8rem] opacity-10 bottom-0 right-0" />
-//         </div>
-//       </section>
-
-//       {/* Octopus Image Bottom Center */}
-//       <div className="absolute bottom-[-5px] left-1/2 transform -translate-x-1/2 w-auto z-10 pointer-events-none">
-//         <img
-//           src="../../images/oct1.png"
-//           alt="Cute Octopus"
-//           className="w-60 lg:w-80 object-contain"
-//         />
-//       </div>
-
-//       {/* Robot Image Top Right */}
-//       <div className="absolute top-0 right-10 p-4 z-10">
-//         <img
-//           src="../images/robot1.png"
-//           alt="robot image"
-//           className="w-40 lg:w-70 object-contain"
-//         />
-//       </div>
-
-//       {/* Sticky Robot Image (Bottom Right) */}
-//       {/* <div className="fixed top-40 right-10 z-40 pointer-events-none">
-//         <img
-//           src="../images/robot1.png"
-//           alt="Robot"
-//           className="w-24 sm:w-32 lg:w-80 object-contain"
-//         />
-//       </div> */}
-//     </div>
-//   );
-// };
-
-// export default Homepage;
-
 import React from "react";
 import {
   FaCalculator,
@@ -156,6 +19,7 @@ import {
 } from "react-icons/fa";
 import HeroSlider from "../components/HeroSlider";
 import Footer from "../components/footer";
+import GLBViewer from "../../../../../anas/Kids-Scholar-main/Kids-Scholar-main/Frontend/src/components/GLBViewer";
 
 // Floating icon component
 const FloatingIcon = ({ Icon, className }) => (
@@ -193,6 +57,9 @@ const Homepage = () => {
           Fun learning for Math, English, Science & Programming. Explore
           exciting games, lessons, and quizzes made just for kids!
         </p>
+        <div className=" w-[800px] h-[50vh]">
+          <GLBViewer url="/model.glb" scale={1} />
+        </div>
       </section>
 
       {/* Subject Cards */}
@@ -341,18 +208,16 @@ const Homepage = () => {
       {/* Robot */}
       <div className="absolute top-230 right-10 p-4 z-10 pointer-events-none">
         <img
-          src="../images/robot.png"
+          src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753223861/robot_lfu0gs.png"
           alt="robot image"
           className="w-40 lg:w-70 object-contain"
         />
       </div>
-      <Footer/>
     </div>
   );
 };
 
 export default Homepage;
-
 
 // #f0c96a
 // #dbeffe

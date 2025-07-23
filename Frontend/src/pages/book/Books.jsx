@@ -9,11 +9,16 @@ import { FaBookOpen, FaEquals, FaMinus, FaPlus, FaRocket, FaSmile, FaStar } from
 export default function Books() {
   const [stories, setStories] = useState([]);
   const navigate = useNavigate();
+const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchStories = async () => {
       try {
-        const res = await axios.get("http://localhost:5300/api/stories");
+        const res = await axios.get("http://localhost:5300/api/stories", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setStories(res.data);
       } catch (error) {
         console.error("Error fetching stories:", error);
@@ -31,23 +36,29 @@ export default function Books() {
   );
 
   return (
-    <div className="font-sans relative overflow-hidden bg-[#94cffd] min-h-screen">
+    <div className="font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] min-h-screen">
       <Navbar />
 
       {/* Floating Background Icon */}
       <FaBookOpen className="text-gray-400 opacity-10 text-[10rem] absolute top-[30%] left-[10%] pointer-events-none z-0" />
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <FloatingIcon Icon={FaPlus} className={{top:"20%" ,left:"5%"}} />
-        <FloatingIcon Icon={FaMinus} className={{top:"30%", left:"80%"}} />
-        <FloatingIcon Icon={FaStar} className={{top:"42%",right:"35%"}} />
-        <FloatingIcon Icon={FaSmile} className={{bottom:"40%" ,right:"5%"}} />
-        <FloatingIcon Icon={FaRocket} className={{top:"40%", left:"45%"}} />
-        <FloatingIcon Icon={FaEquals} className={{bottom:"30%" ,left:"20%"}} />
+        <FloatingIcon Icon={FaPlus} className={{ top: "20%", left: "5%" }} />
+        <FloatingIcon Icon={FaMinus} className={{ top: "30%", left: "80%" }} />
+        <FloatingIcon Icon={FaStar} className={{ top: "42%", right: "35%" }} />
+        <FloatingIcon
+          Icon={FaSmile}
+          className={{ bottom: "40%", right: "5%" }}
+        />
+        <FloatingIcon Icon={FaRocket} className={{ top: "40%", left: "45%" }} />
+        <FloatingIcon
+          Icon={FaEquals}
+          className={{ bottom: "30%", left: "20%" }}
+        />
       </div>
 
       {/* Header Section */}
       <section className="relative z-10 bg-white pt-32 pb-16 px-6 sm:px-10 lg:px-20 text-center max-w-5xl mx-auto rounded-b-3xl shadow-lg">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-[#bb4fa9] mb-6">
+        <h1 className="text-4xl sm:text-5xl lg:text-5xl font-extrabold leading-tight text-[#bb4fa9] mb-6">
           📘 Explore Our <span className="text-[#f0c96a]">Story Library</span>
         </h1>
         <p className="text-lg sm:text-xl lg:text-2xl text-gray-700 leading-relaxed max-w-3xl mx-auto">
@@ -81,8 +92,6 @@ export default function Books() {
           </div>
         ))}
       </section>
-
-      <Footer />
     </div>
   );
 }

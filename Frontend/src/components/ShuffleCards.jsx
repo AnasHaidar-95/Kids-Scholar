@@ -135,7 +135,7 @@ const FloatingIcon = ({ Icon, style }) => (
   />
 );
   return (
-    <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-[#94cffd] pt-10">
+    <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] pt-10">
       {/* أيقونات طافية في الخلفية */}
       {/* Background Floating Icons */}
       <div className="absolute inset-0 z-0 pointer-events-none">

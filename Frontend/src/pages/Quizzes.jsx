@@ -15,7 +15,7 @@ export default function Quizzes() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col h-280 font-sans relative overflow-hidden bg-[#94cffd] pt-10">
+    <div className="flex flex-col min-h-screen font-sans relative overflow-hidden bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] pt-20">
       {/* <Navbar /> */}
 
       {/* Background Floating Icons */}
@@ -78,8 +78,6 @@ export default function Quizzes() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

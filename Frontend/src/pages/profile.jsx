@@ -1,195 +1,331 @@
-import React, { useState, useEffect } from "react";
-import { FaStar, FaSmile, FaRocket } from "react-icons/fa";
-import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  FaEnvelope,
+  FaUser,
+  FaMedal,
+  FaUserGraduate,
+  FaEdit,
+} from "react-icons/fa";
+import { FaCamera } from "react-icons/fa";
 
-const FloatingIcon = ({ Icon, style }) => (
-  <Icon
-    className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute animate-pulse pointer-events-none"
-    style={style}
-  />
-);
-
-const Profile = () => {
-  const [userData, setUserData] = useState(null);
+const ProfilePage = () => {
+  const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [editOpen, setEditOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", age: "" });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const token =
-          localStorage.getItem("authToken") ||
-          document.cookie.replace(
-            /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-            "$1"
-          );
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setError("Please login to view your profile");
+      setLoading(false);
+      return;
+    }
 
-        if (!token) return;
-
-        const decoded = jwtDecode(token);
-        const userId = decoded.user?.id || decoded.id;
-
-        const response = await fetch(`/api/users/${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
+    axios
+      .get("http://localhost:5300/api/users/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setStudent(res.data);
+        setFormData({
+          name: res.data.name,
+          email: res.data.email,
+          age: res.data.age || "",
         });
-
-        if (!response.ok) throw new Error("Failed to fetch user data");
-
-        const user = await response.json();
-        setUserData(user);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
         setLoading(false);
-      }
-    };
-
-    fetchUserData();
+      })
+      .catch((err) => {
+        setError(err.response?.data?.message || "Failed to load profile");
+        setLoading(false);
+      });
   }, []);
 
-  const handleAvatarChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file || !userData) return;
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("authToken");
+    setError("");
+    setSuccess("");
 
-    try {
-      const formData = new FormData();
-      formData.append("avatar", file);
-
-      const token =
-        localStorage.getItem("authToken") ||
-        document.cookie.replace(
-          /(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/,
-          "$1"
-        );
-
-      const response = await fetch(`/api/users/${userData._id}/avatar`, {
-        method: "PUT",
+    axios
+      .patch("http://localhost:5300/api/users/editProfile", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: formData,
+      })
+      .then(() => {
+        setSuccess("Profile updated successfully!");
+        setEditOpen(false);
+        setStudent((prev) => ({ ...prev, ...formData }));
+      })
+      .catch((err) => {
+        setError(err.response?.data?.message || "Update failed.");
       });
+  };
 
-      if (!response.ok) throw new Error("Failed to upload avatar");
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
-    } catch (error) {
-      console.error("Avatar upload failed:", error);
-      alert("Failed to upload avatar.");
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5300/api/upload",
+        formData
+      );
+      const imageUrl = res.data.url;
+      setFormData((prev) => ({ ...prev, image: imageUrl }));
+      setImage(imageUrl); // لتحديث الصورة في الصفحة مباشرة
+      setUploading(false);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      setError("Image upload failed");
+      setUploading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#bb4fa9]"></div>
-      </div>
-    );
-  }
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-10">{error}</div>;
 
   return (
-    <div
-      className="min-h-screen font-sans relative overflow-hidden"
-      style={{
-        background: `linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)`,
-      }}
-    >
-      <FloatingIcon Icon={FaStar} style={{ top: "10%", left: "5%" }} />
-      <FloatingIcon Icon={FaSmile} style={{ top: "50%", right: "10%" }} />
-      <FloatingIcon Icon={FaRocket} style={{ bottom: "20%", left: "20%" }} />
-
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 px-6 py-20 max-w-6xl mx-auto">
-        {/* Left side image beside card */}
-        <div className="w-full md:w-[400px] flex justify-center">
-          <img
-            src="../images/robot.png"
-            alt="Decoration"
-            className="w-full object-contain"
-          />
-        </div>
-
-        {/* Profile card */}
-        <div className="bg-white rounded-3xl shadow-lg p-8 w-full md:w-[500px]">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-extrabold text-[#bb4fa9] mb-2">
-              My Profile
-            </h1>
-            <p className="text-lg text-gray-700">Account Information</p>
-          </div>
-
-          <div className="flex justify-center mb-6">
-            <div
-              className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden border-4 border-[#bb4fa9] cursor-pointer group"
-              onClick={() => document.getElementById("avatarUpload").click()}
-              title="Click to change avatar"
-            >
-              {userData?.avatar ? (
-                <img
-                  src={userData.avatar}
-                  alt="Profile"
-                  className="w-full h-full object-cover group-hover:opacity-80 transition"
-                />
-              ) : (
-                <span className="text-4xl text-gray-500">
-                  {userData?.name?.charAt(0) || "U"}
-                </span>
-              )}
-              <input
-                id="avatarUpload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleAvatarChange}
+    <div className="min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans">
+      <div className="max-w-4xl mx-auto px-6 py-24">
+        {/* Profile Header */}
+        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-center mb-10 relative">
+          <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg mb-4 border-4 border-[#bb4fa9] mx-auto">
+            {student.image ? (
+              <img
+                src={student.image}
+                alt="Profile"
+                className="w-full h-full object-cover"
               />
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <ProfileField label="Name" value={userData?.name} />
-            <ProfileField label="Email" value={userData?.email} />
-            <ProfileField label="Phone" value={userData?.phone} />
-            <ProfileField label="Date of birth" value={userData?.dob} />
-            <ProfileField
-              label="Budget"
-              value={userData?.budget ? `$${userData.budget}` : "Not provided"}
-            />
-
-            <div>
-              <label className="block text-gray-500 mb-1">Progress</label>
-              <div className="w-full bg-gray-200 rounded-lg overflow-hidden">
-                <div
-                  className="bg-[#bb4fa9] h-4 transition-all duration-300"
-                  style={{ width: `${userData?.progress || 0}%` }}
-                ></div>
+            ) : (
+              <div className="w-full h-full bg-[#bb4fa9] text-white flex items-center justify-center text-4xl">
+                <FaUserGraduate />
               </div>
-              <p className="text-sm text-gray-600 mt-1">
-                {userData?.progress ?? 0}% complete
-              </p>
-            </div>
+            )}
           </div>
+
+          <h2 className="text-3xl font-bold text-[#bb4fa9] mb-1">
+            {student.name}
+          </h2>
+          {/* <p className="text-gray-600 flex items-center justify-center gap-2">
+            <FaUser /> ID: {student._id}
+          </p> */}
+          <p className="text-gray-600 flex items-center justify-center gap-2 mt-1">
+            <FaEnvelope /> {student.email}
+          </p>
+          <p className="text-gray-600 mt-1">Age: {student.age || "N/A"}</p>
 
           <button
-            onClick={() => {
-              localStorage.removeItem("authToken");
-              document.cookie =
-                "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              window.location.reload();
-            }}
-            className="w-full mt-6 py-3 bg-[#bb4fa9] hover:bg-[#a24296] text-white font-bold rounded-lg transition duration-300"
+            onClick={() => setEditOpen(true)}
+            className="absolute top-6 right-6 bg-[#f0c96a] hover:bg-[#e7b94f] text-white px-4 py-2 rounded-full flex items-center gap-2 shadow"
           >
-            Log Out
+            <FaEdit /> Edit
           </button>
         </div>
+
+        {/* Badges */}
+        <div className="mb-10">
+          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4 text-center">
+            🎖️ Badges
+          </h3>
+          <div className="flex flex-wrap justify-center gap-4">
+            {
+              // student.badges || []
+              ["Math Master", "Grammar Star", "Fast Learner"].map(
+                (badge, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#f0c96a] text-white px-4 py-2 rounded-full shadow-md font-semibold flex items-center gap-2"
+                  >
+                    <FaMedal className="text-white" />
+                    {badge}
+                  </div>
+                )
+              )
+            }
+          </div>
+        </div>
+
+        {/* Progress */}
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4">
+            📈 Progress
+          </h3>
+          <div className="relative w-full bg-gray-200 rounded-full h-8 max-w-xl mx-auto shadow-inner">
+            <div
+              className="bg-[#bb4fa9] h-8 rounded-full text-white flex items-center justify-center text-sm font-semibold transition-all duration-500"
+              style={{ width: `${student.progress || 45}%` }}
+            >
+              {student.progress || 45}%
+            </div>
+          </div>
+        </div>
+
+        {/* Success message */}
+        {success && (
+          <p className="text-center text-green-600 mt-6 font-semibold">
+            {success}
+          </p>
+        )}
       </div>
+
+      {/* Edit Modal */}
+      {editOpen && (
+        <div className="fixed inset-0 bg-white/30 flex justify-center items-center z-50">
+          <div className="bg-white rounded-2xl p-6 md:p-10 shadow-xl max-w-md w-full">
+            <h2 className="text-2xl font-bold text-[#bb4fa9] mb-4 text-center">
+              Edit Profile
+            </h2>
+            <form onSubmit={handleUpdate} className="space-y-4">
+              <div className="flex items-center gap-4">
+                <label className="cursor-pointer text-[#bb4fa9] font-semibold">
+                  <FaCamera className="inline mr-2" />
+                  Upload Image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+                {uploading && (
+                  <span className="text-sm text-gray-500">Uploading...</span>
+                )}
+              </div>
+
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full p-3 border-2 border-[#bb4fa9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f0c96a] text-[#bb4fa9]"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full p-3 border-2 border-[#bb4fa9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f0c96a] text-[#bb4fa9]"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+              <input
+                type="number"
+                placeholder="Age"
+                className="w-full p-3 border-2 border-[#bb4fa9] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#f0c96a] text-[#bb4fa9]"
+                value={formData.age}
+                onChange={(e) =>
+                  setFormData({ ...formData, age: e.target.value })
+                }
+              />
+              <div className="flex justify-between mt-6">
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                  onClick={() => setEditOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded bg-[#bb4fa9] text-white hover:bg-[#a23c90]"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-const ProfileField = ({ label, value }) => (
-  <div>
-    <label className="block text-gray-500 mb-1">{label}</label>
-    <div className="w-full p-3 bg-gray-50 rounded-lg">{value}</div>
-  </div>
-);
+export default ProfilePage;
 
-export default Profile;
+// import React from "react";
+// import { FaEnvelope, FaUser, FaMedal, FaUserGraduate } from "react-icons/fa";
+
+// const student = {
+//   name: "Lina Youssef",
+//   id: "STU12345",
+//   email: "lina@example.com",
+//   badges: ["Math Master", "Grammar Star", "Fast Learner"],
+//   progress: 75, // out of 100
+// };
+
+// const ProfilePage = () => {
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans">
+//       {/* <Navbar /> */}
+//       <div className="max-w-4xl mx-auto px-6 py-32">
+//         {/* Profile Header */}
+//         <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-center mb-10">
+//           <div className="flex items-center justify-center mb-4">
+//             <div className="w-24 h-24 bg-[#bb4fa9] text-white flex items-center justify-center rounded-full shadow-lg text-4xl">
+//               <FaUserGraduate />
+//             </div>
+//           </div>
+//           <h2 className="text-3xl font-bold text-[#bb4fa9] mb-1">
+//             {student.name}
+//           </h2>
+//           <p className="text-gray-600 flex items-center justify-center gap-2">
+//             <FaUser /> ID: {student.id}
+//           </p>
+//           <p className="text-gray-600 flex items-center justify-center gap-2 mt-1">
+//             <FaEnvelope /> {student.email}
+//           </p>
+//         </div>
+
+//         {/* Badges Section */}
+//         <div className="mb-10">
+//           <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4 text-center">
+//             🎖️ Badges
+//           </h3>
+//           <div className="flex flex-wrap justify-center gap-4">
+//             {student.badges.map((badge, index) => (
+//               <div
+//                 key={index}
+//                 className="bg-[#f0c96a] text-white px-4 py-2 rounded-full shadow-md font-semibold flex items-center gap-2"
+//               >
+//                 <FaMedal className="text-white" />
+//                 {badge}
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Progress Section */}
+//         <div className="text-center">
+//           <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4">
+//             📈 Progress
+//           </h3>
+//           <div className="relative w-full bg-gray-200 rounded-full h-8 max-w-xl mx-auto shadow-inner">
+//             <div
+//               className="bg-[#bb4fa9] h-8 rounded-full text-white flex items-center justify-center text-sm font-semibold transition-all duration-500"
+//               style={{ width: ${student.progress}% }}
+//             >
+//               {student.progress}%
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {/* <Footer /> */}
+//     </div>
+//   );
+// };
+
+// export default ProfilePage;

@@ -20,7 +20,7 @@ const CountVideo = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="font-sans relative overflow-hidden min-h-screen bg-[#94cffd]">
+    <div className="font-sans relative overflow-hidden min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe]">
       {/* Floating Icons Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FloatingIcon Icon={FaStar} className="top-[10%] left-[5%]" />

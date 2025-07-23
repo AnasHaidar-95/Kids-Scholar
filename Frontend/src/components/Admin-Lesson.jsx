@@ -14,10 +14,31 @@ export default function LessonsPage() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const userRole = userInfo?.type;
+    if (!token) {
+      setError("No token found. Please login.");
+      return;
+    }
+
+    if (userRole !== "admin") {
+      setError("Unauthorized: Admin access only.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
+
     axios
-      .get(`http://localhost:5300/api/lessons/all?page=${page}&limit=${limit}`)
+      .get(
+        `http://localhost:5300/api/lessons/all?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setLessons(res.data.lessons);
         setTotalPages(res.data.totalPages);
@@ -34,16 +55,21 @@ export default function LessonsPage() {
   if (error) return <p className="p-6 text-center text-red-600">{error}</p>;
 
   const handleDeleteLesson = (lessonId) => {
-  axios
-    .delete(`http://localhost:5300/api/lessons/${lessonId}`)
-    .then(() => {
-      setLessons(prevLesson => prevLesson.filter(lesson => lesson._id !== lessonId));
-    })
-    .catch((error) => {
-      console.error(`Error Deleting User: ${error}`);
-    });
-};
-
+    axios
+      .delete(`http://localhost:5300/api/lessons/${lessonId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        setLessons((prevLesson) =>
+          prevLesson.filter((lesson) => lesson._id !== lessonId)
+        );
+      })
+      .catch((error) => {
+        console.error(`Error Deleting User: ${error}`);
+      });
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">

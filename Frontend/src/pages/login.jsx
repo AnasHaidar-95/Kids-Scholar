@@ -35,12 +35,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div
-      className="min-h-screen font-sans relative overflow-hidden flex items-center justify-center"
-      style={{
-        background: `linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)`,
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans relative overflow-hidden flex items-center justify-center">
       {/* أيقونات خلفية مرحة */}
       <FaStar className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute top-[10%] left-[5%] animate-pulse pointer-events-none" />
       <FaSmile className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute top-[50%] right-[10%] animate-pulse pointer-events-none" />
@@ -49,7 +44,7 @@ const LoginPage = () => {
       {/* البطاقة الرئيسية */}
       <div className="relative z-20 w-full max-w-md mx-4">
         <img
-          src="/images/oct.png"
+          src="https://res.cloudinary.com/dos9zxky6/image/upload/v1753223904/oct_vvarxp.png"
           alt="octopus"
           className="absolute -bottom-18 left-1/2 transform -translate-x-1/2 w-50 z-10 animate-float"
         />
@@ -90,7 +85,7 @@ const LoginPage = () => {
             </button>
 
             <Link
-              className="text-[#8A2BE2] hover:underline block text-center mt-2"
+              className="text-[#bb4fa9] hover:underline block text-center mt-2"
               to={"/register"}
             >
               Create Account

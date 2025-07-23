@@ -138,7 +138,7 @@ const FloatingIcon = ({ Icon, style }) => (
   />
 );
   return (
-    <div className="flex flex-col min-h-screen bg-[#94cffd] font-sans">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans">
       {/* <Navbar /> */}
       {/* Background Floating Icons */}
       <div className="absolute inset-0 z-0 pointer-events-none">

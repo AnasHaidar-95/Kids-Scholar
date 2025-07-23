@@ -25,9 +25,6 @@ const Sidebar = () => (
       <Link to="/AdminLesson" className="hover:bg-gray-700 rounded px-3 py-2">
         Lessons
       </Link>
-      <Link to="/" className="hover:bg-gray-700 rounded px-3 py-2">
-        go to the progect
-      </Link>
       <Link to="/login" className="hover:bg-gray-700 rounded px-3 py-2">
         log out
       </Link>

@@ -29,6 +29,7 @@ import AdminLesson from "./components/Admin-Lesson";
 import AdminQuizz from "./components/Admin-Quizz";
 import AdminGame from "./components/Admin-Game";
 import Profile from "./pages/profile";
+import Footer from "./components/footer"
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
         <Route path="/AdminGame" element={<AdminGame />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

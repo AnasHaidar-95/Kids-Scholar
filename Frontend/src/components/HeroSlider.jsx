@@ -15,7 +15,7 @@ const slides = [
   },
   {
     image:
-      "https://res.cloudinary.com/dos9zxky6/image/upload/v1753201434/Everyone_can_learn_oajvuf.jpg",
+      "https://res.cloudinary.com/dos9zxky6/image/upload/v1753264682/freepik__the-style-is-candid-image-photography-with-natural__26798_lwkkt7.png",
     subtitle: "Play and Grow Together",
     title: ["Play", "and Learn"],
     buttonText: "Get Started",
@@ -23,7 +23,7 @@ const slides = [
   },
   {
     image:
-      "https://images.pexels.com/photos/3662668/pexels-photo-3662668.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      "https://res.cloudinary.com/dos9zxky6/image/upload/v1753264689/portrait-girl-playing_tqkfgm.jpg",
     subtitle: "Explore and Discover",
     title: ["Explore", "and Learn"],
     buttonText: "Get Started",

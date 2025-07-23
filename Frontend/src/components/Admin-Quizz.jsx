@@ -12,12 +12,20 @@ export default function QuizzesPage() {
   const [page, setPage] = useState(1);
   const [limit] = useState(20); // quizzes per page
   const [totalPages, setTotalPages] = useState(1);
+const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     axios
-      .get(`http://localhost:5300/api/quizzes/all?page=${page}&limit=${limit}`)
+      .get(
+        `http://localhost:5300/api/quizzes/all?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setQuizzes(res.data.quizzes);
         setTotalPages(res.data.totalPages);
@@ -35,9 +43,15 @@ export default function QuizzesPage() {
 
 const handleDeleteQuizz = (quizzId) => {
   axios
-    .delete(`http://localhost:5300/api/quizzes/${quizzId}`)
+    .delete(`http://localhost:5300/api/quizzes/${quizzId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then(() => {
-      setQuizzes(prevQuizz => prevQuizz.filter(quizz => quizz._id !== quizzId));
+      setQuizzes((prevQuizz) =>
+        prevQuizz.filter((quizz) => quizz._id !== quizzId)
+      );
     })
     .catch((error) => {
       console.error(`Error Deleting quizz: ${error}`);
