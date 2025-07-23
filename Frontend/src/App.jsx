@@ -28,6 +28,7 @@ import AdminStory from "./components/Admin-Story";
 import AdminLesson from "./components/Admin-Lesson";
 import AdminQuizz from "./components/Admin-Quizz";
 import AdminGame from "./components/Admin-Game";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         <Route path="/AdminQuizz" element={<AdminQuizz />} />
         <Route path="/AdminLesson" element={<AdminLesson />} />
         <Route path="/AdminGame" element={<AdminGame />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

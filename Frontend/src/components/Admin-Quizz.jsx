@@ -22,7 +22,6 @@ export default function QuizzesPage() {
         setQuizzes(res.data.quizzes);
         setTotalPages(res.data.totalPages);
         setLoading(false);
-        console.log(res.data.quizzes);
       })
       .catch((error) => {
         console.error(error);

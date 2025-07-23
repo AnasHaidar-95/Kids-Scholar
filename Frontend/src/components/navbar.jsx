@@ -20,7 +20,10 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken");
+const infoRaw = localStorage.getItem("userInfo");
+const info = infoRaw ? JSON.parse(infoRaw) : null;
+const isAdmin = info?.type === "admin";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,11 +45,20 @@ const token = localStorage.getItem("authToken");
     navigate("/login");
   };
 
-  const isActive = (path) => location.pathname === path;
+  const hiddenNavbarRoutes = [
+    "/AdminDashboard",
+    "/AdminUser",
+    "/AdminStory",
+    "/AdminGame",
+    "/AdminQuizz",
+    "/AdminLesson",
+  ];
 
-  const isAdminRoute = location.pathname.startsWith("/AdminDashboard");
+  const shouldHideNavbar = hiddenNavbarRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
-  if (isAdminRoute) return null;
+  if (shouldHideNavbar) return null;
 
   const links = [
     { to: "/", label: "Home", icon: <FaHome className="text-2xl" /> },
@@ -69,7 +81,7 @@ const token = localStorage.getItem("authToken");
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 w-full px-6 py-0 rounded-b-2xl z-40 transition-colors duration-300 flex items-center justify-between ${
+        className={`fixed top-0 left-0 w-full px-6 py-4 rounded-b-2xl z-40 transition-colors duration-300 flex items-center justify-between ${
           isHomePage && !scrolled
             ? "bg-transparent text-[#bb4fa9] backdrop-blur-sm"
             : "bg-white text-gray-800 shadow-lg"
@@ -93,6 +105,19 @@ const token = localStorage.getItem("authToken");
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center space-x-10 text-lg font-semibold">
+            {isAdmin && (
+              <Link
+                to="/AdminDashboard"
+                className={`group relative flex items-center gap-2 font-semibold text-[${PINK}] transition duration-300`}
+              >
+                <FaUserCircle className="text-2xl" />
+                <span className="relative z-10">Dashboard</span>
+                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300">
+                  <span className="absolute inset-0 blur-sm bg-[${PINK}] opacity-30 rounded-full scale-110"></span>
+                </span>
+              </Link>
+            )}
+
             {links.map(({ to, label, icon }) => (
               <Link
                 key={to}

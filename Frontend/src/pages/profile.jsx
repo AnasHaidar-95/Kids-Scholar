@@ -102,7 +102,7 @@ const Profile = () => {
         {/* Left side image beside card */}
         <div className="w-full md:w-[400px] flex justify-center">
           <img
-            src="../images/star.png"
+            src="../images/robot.png"
             alt="Decoration"
             className="w-full object-contain"
           />

@@ -22,7 +22,6 @@ export default function UsersPage() {
         setStories(res.data.stories);
         setTotalPages(res.data.totalPages);
         setLoading(false);
-        console.log(res.data);
       })
       .catch((error) => {
         console.error(error);
