@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
+import { FaBook, FaCalculator, FaFlask } from "react-icons/fa";
 
 const questions = [
   {
@@ -66,13 +67,25 @@ const questions = [
   },
 ];
 
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 export default function EnglishQuiz() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [isQuizEnded, setIsQuizEnded] = useState(false);
+  const [shuffledOptions, setShuffledOptions] = useState([]);
   const timeoutRef = useRef(null);
+
+  const current = questions[currentIndex];
 
   const playSound = (type, volume = 0.5) => {
     const audio = new Audio(`/sounds/${type}.mp3`);
@@ -80,7 +93,9 @@ export default function EnglishQuiz() {
     audio.play();
   };
 
-  const current = questions[currentIndex];
+  useEffect(() => {
+    setShuffledOptions(shuffle(current.options));
+  }, [currentIndex]);
 
   const handleAnswer = (answer) => {
     if (answer === current.correct) {
@@ -113,73 +128,92 @@ export default function EnglishQuiz() {
   };
 
   const EndScreen = () => (
-    <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xl w-full text-center animate-fade-in">
-      <p className="text-3xl text-green-700 font-bold mb-6">
-        🎉 Congratulations!
-      </p>
+    <div className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 max-w-xl w-full text-center animate-fade-in">
+      <p className="text-3xl text-[#4caf50] font-bold mb-6">🎉 Great Job!</p>
       <p className="text-lg text-gray-700 mb-6">
-        Your final score is <strong>{score}</strong> / {questions.length}
+        You scored <strong>{score}</strong> out of {questions.length}
       </p>
       <button
         onClick={restart}
-        className="bg-[#87CEEB] text-white px-6 py-3 rounded-full hover:bg-[#5eb9d6] transition font-bold"
+        className="bg-[#bb4fa9] text-white px-6 py-3 rounded-full hover:bg-[#a13d93] transition font-bold"
       >
         🔁 Try Again
       </button>
     </div>
   );
 
+  const FloatingIcon = ({ Icon, style }) => (
+    <Icon
+      className="text-[#bb4fa9] opacity-10 text-[4rem] lg:text-[6rem] absolute animate-float"
+      style={style}
+    />
+  );
+
   return (
-    <div>
-      <div className=" flex flex-col min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
-        <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 font-sans relative">
-          <button
-            onClick={() => navigate(-1)}
-            className="absolute top-40 left-5 bg-[#bb4fa9] text-white font-bold px-5 py-2 rounded-full shadow-lg hover:bg-[#a13d93] transition z-50"
-          >
-            Back
-          </button>
+    <div className="flex flex-col min-h-screen bg-[#94cffd] font-sans">
+      {/* <Navbar /> */}
+      {/* Background Floating Icons */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <FloatingIcon Icon={FaCalculator} style={{ top: "25%", left: "8%" }} />
+        <FloatingIcon Icon={FaBook} style={{ top: "60%", right: "10%" }} />
+        <FloatingIcon Icon={FaFlask} style={{ top: "40%", left: "50%" }} />
+      </div>
+      <div className="flex-grow flex flex-col items-center justify-center px-4 py-12 relative">
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-24 left-6 bg-[#bb4fa9] text-white font-bold px-5 py-2 rounded-full shadow-lg hover:bg-[#a13d93] transition"
+        >
+          ← Back
+        </button>
 
-          {isQuizEnded ? (
-            <EndScreen />
-          ) : (
-            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-xl w-full text-center animate-fade-in">
-              <h1 className="text-4xl font-extrabold text-[#bb4fa9] mb-4">
-                📚 English Quiz
-              </h1>
+        {isQuizEnded ? (
+          <EndScreen />
+        ) : (
+          <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl p-6 sm:p-8 text-center transition-all duration-500">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#bb4fa9] mb-6">
+              📘 English Quiz
+            </h1>
 
-              <div className="text-sm text-gray-700 font-semibold mb-6">
-                ✅ Score: {score} / {questions.length}
-              </div>
+            <div className="text-md sm:text-lg text-gray-600 mb-4 font-medium">
+              ✅ Score: {score} / {questions.length}
+            </div>
 
-              <p className="text-xl text-gray-800 mb-6 font-semibold">
-                {current.question}
-              </p>
+            <p className="text-lg sm:text-xl text-gray-800 font-semibold mb-6">
+              {current.question}
+            </p>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                {current.options.map((opt, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => handleAnswer(opt)}
-                    className="bg-[#bb4fa9] text-white py-3 rounded-full hover:bg-[#a13d93] transition font-bold text-lg"
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              {shuffledOptions.map((opt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleAnswer(opt)}
+                  className="bg-[#f0c96a] text-gray-800 py-3 rounded-full hover:bg-[#e9bc50] transition font-bold text-md sm:text-lg"
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
 
-              <p className="text-green-700 font-semibold text-lg mb-2">
+            {feedback && (
+              <p
+                className={`text-lg font-semibold ${
+                  feedback.includes("Correct")
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
                 {feedback}
               </p>
+            )}
 
-              <div className="text-sm text-gray-600">
-                🧩 Level: {currentIndex + 1} / {questions.length}
-              </div>
+            <div className="text-sm text-gray-500 mt-4">
+              🧩 Question {currentIndex + 1} of {questions.length}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-      <Footer/>
+
+      {/* <Footer /> */}
     </div>
   );
 }

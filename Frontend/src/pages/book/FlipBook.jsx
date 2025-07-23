@@ -114,15 +114,14 @@ export default function FlipBook() {
   );
 
   return (
-    <div className="bg-[#dbeffe] min-h-screen flex flex-col items-center justify-center py-40 px-4">
+    <div className="bg-[#94cffd] min-h-screen flex flex-col items-center justify-center py-40 px-4">
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FloatingIcon Icon={FaPlus} className="top-[10%] left-[5%]" />
         <FloatingIcon Icon={FaMinus} className="top-[20%] left-[40%]" />
         <FloatingIcon Icon={FaStar} className="top-[42%] right-[35%]" />
         <FloatingIcon Icon={FaSmile} className="bottom-[8%] right-[5%]" />
-        <FloatingIcon Icon={FaRocket} className="top-[40%] left-[13%]" /> 
+        <FloatingIcon Icon={FaRocket} className="top-[40%] left-[13%]" />
         <FloatingIcon Icon={FaEquals} className="bottom-[28%] left-[5%]" />
-
       </div>
       <button
         onClick={handleToggleAudio}

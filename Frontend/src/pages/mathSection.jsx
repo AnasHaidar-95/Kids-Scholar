@@ -15,7 +15,7 @@ import Footer from "../components/footer";
 // Floating background icon
 const FloatingIcon = ({ Icon, style }) => (
   <Icon
-    className="text-white opacity-10 text-[4rem] lg:text-[6rem] absolute animate-pulse pointer-events-none"
+    className="text-[#a13d93] opacity-10 text-[4rem] lg:text-[6rem] absolute animate-pulse pointer-events-none"
     style={style}
   />
 );
@@ -25,13 +25,7 @@ const MathSection = () => {
 
   return (
     <div>
-      <div
-        className="min-h-screen font-sans relative overflow-hidden p-40"
-        style={{
-          background:
-            "linear-gradient(to left, #d0eaf5 0%, #87CEEB 25%, #d0eaf5 50%, #87CEEB 75%, #d0eaf5 100%)",
-        }}
-      >
+      <div className="min-h-screen font-sans relative overflow-hidden p-40 bg-[#94cffd]">
         {/* Floating background icons */}
         <FloatingIcon Icon={FaStar} style={{ top: "10%", left: "5%" }} />
         <FloatingIcon Icon={FaSmile} style={{ top: "50%", right: "10%" }} />

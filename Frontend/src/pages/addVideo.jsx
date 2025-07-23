@@ -79,7 +79,7 @@ const VideoPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="font-sans relative overflow-hidden min-h-screen">
+    <div className="font-sans relative overflow-hidden min-h-screen bg-[#94cffd]">
       {/* Floating Icons Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FloatingIcon Icon={FaPlus} className="top-[10%] left-[5%]" />
@@ -91,12 +91,12 @@ const VideoPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 bg-white py-20 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-b-3xl">
+      <div className="relative z-10 py-20 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-b-3xl">
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-[#bb4fa9] mb-6 text-center">
           Addition Video Lesson
         </h1>
-        
-        <div className="w-full max-w-4xl mx-auto shadow-xl rounded-2xl overflow-hidden bg-[#fff3f9] p-4">
+
+        <div className="w-full max-w-4xl mx-auto shadow-xl rounded-2xl overflow-hidden p-4">
           <div className="aspect-w-16 aspect-h-9">
             <iframe
               width="100%"
@@ -112,7 +112,8 @@ const VideoPage = () => {
         </div>
 
         <p className="text-center text-xl text-gray-700 mt-8 mb-10">
-          Let's learn to add numbers together! <span className="text-2xl">➕</span>
+          Let's learn to add numbers together!{" "}
+          <span className="text-2xl">➕</span>
         </p>
 
         <div className="flex justify-center space-x-6">
@@ -132,7 +133,6 @@ const VideoPage = () => {
       </div>
 
       {/* Robot Character */}
-     
     </div>
   );
 };

@@ -163,7 +163,7 @@ const AddLesson = () => {
   }, [num1, num2]);
 
   return (
-    <div className="font-sans relative overflow-hidden min-h-screen">
+    <div className="font-sans relative overflow-hidden min-h-screen bg-[#94cffd] p-10">
       {/* Floating Icons Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <FloatingIcon Icon={FaPlus} className="top-[10%] left-[5%]" />
@@ -175,7 +175,7 @@ const AddLesson = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 bg-white py-16 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-b-3xl">
+      <div className="relative z-10 py-16 px-6 sm:px-10 lg:px-20 max-w-5xl mx-auto rounded-b-3xl">
         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight text-[#bb4fa9] mb-12 text-center">
           Addition Adventure! <span className="text-4xl">➕</span>
         </h1>

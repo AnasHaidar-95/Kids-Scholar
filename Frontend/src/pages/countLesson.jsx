@@ -76,63 +76,65 @@ const speak = (text) => {
 
 
   return (
-   <div>
-     <div className="font-sans relative pt-30 overflow-hidden">
-      {/* Floating Icons Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <FloatingIcon Icon={FaStar} className="top-[10%] left-[5%]" />
-        <FloatingIcon Icon={FaSmile} className="top-[30%] left-[40%]" />
-        <FloatingIcon Icon={FaRocket} className="top-[40%] right-[15%]" />
-      </div>
+    <div>
+      <div className="font-sans relative pt-30 overflow-hidden bg-[#94cffd]">
+        {/* Floating Icons Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none ">
+          <FloatingIcon Icon={FaStar} className="top-[10%] left-[5%]" />
+          <FloatingIcon Icon={FaSmile} className="top-[30%] left-[40%]" />
+          <FloatingIcon Icon={FaRocket} className="top-[40%] right-[15%]" />
+        </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 bg-white py-16 px-6 sm:px-10 lg:px-20 rounded-b-3xl">
-        <div className="max-w-6xl mx-auto">
-          <button
-            onClick={() => navigate("/countVideo")}
-            className="bg-[#bb4fa9] hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition flex items-center mb-8"
-          >
-            <FaArrowLeft className="mr-2" /> Back
-          </button>
+        {/* Main Content */}
+        <div className="relative z-10  py-16 px-6 sm:px-10 lg:px-20 rounded-b-3xl">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => navigate("/countVideo")}
+              className="bg-[#bb4fa9] hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:scale-105 transition flex items-center mb-8"
+            >
+              <FaArrowLeft className="mr-2" /> Back
+            </button>
 
-          <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-[#bb4fa9] mb-4">
-              Count With Us! <span className="text-[#f0c96a]">1-20</span>
-            </h1>
-            <p className="text-xl text-gray-700">
-              Click any number to hear it spoken aloud
-            </p>
-          </div>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-[#bb4fa9] mb-4">
+                Count With Us! <span className="text-[#f0c96a]">1-20</span>
+              </h1>
+              <p className="text-xl text-gray-700">
+                Click any number to hear it spoken aloud
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {items.map(({ number, label }) => (
-              <div
-                key={number}
-                className="bg-[#fff3f9] border-4 border-[#f0c96a] rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center text-center hover:scale-105 transition transform duration-300 cursor-pointer"
-                onClick={() => speak(label)}
-              >
-                <div className="text-5xl font-bold text-[#bb4fa9]">{number}</div>
-                <div className="text-xl mt-2 font-medium text-gray-700 flex items-center">
-                  {label} <FaVolumeUp className="ml-2 text-[#f0c96a]" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {items.map(({ number, label }) => (
+                <div
+                  key={number}
+                  className="bg-[#fff3f9] border-4 border-[#f0c96a] rounded-2xl p-6 shadow-lg flex flex-col items-center justify-center text-center hover:scale-105 transition transform duration-300 cursor-pointer"
+                  onClick={() => speak(label)}
+                >
+                  <div className="text-5xl font-bold text-[#bb4fa9]">
+                    {number}
+                  </div>
+                  <div className="text-xl mt-2 font-medium text-gray-700 flex items-center">
+                    {label} <FaVolumeUp className="ml-2 text-[#f0c96a]" />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Robot Character */}
-      <div className="absolute bottom-[15%] right-10 p-4 z-10 pointer-events-none">
-        <img
-          src="../images/robot1.png"
-          alt="Counting robot helper"
-          className="w-40 lg:w-70 object-contain"
-        />
-      </div>
+        {/* Robot Character */}
+        <div className="absolute bottom-[15%] right-10 p-4 z-10 pointer-events-none">
+          <img
+            src="../images/robot.png"
+            alt="Counting robot helper"
+            className="w-40 lg:w-70 object-contain"
+          />
+        </div>
 
-      <Footer />
+        {/* <Footer /> */}
+      </div>
     </div>
-   </div>
   );
 };
 
