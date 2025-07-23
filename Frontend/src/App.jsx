@@ -30,6 +30,7 @@ import AdminQuizz from "./components/Admin-Quizz";
 import AdminGame from "./components/Admin-Game";
 import Profile from "./pages/profile";
 import Footer from "./components/footer"
+import LessonsPage from "./pages/lessons";
 
 function App() {
   return (
@@ -54,10 +55,11 @@ function App() {
         <Route path="/VideoPage" element={<VideoPage />} />
         <Route path="/CountVideo" element={<CountVideo />} />
         {/* <Route path="/VideoPage3" element={<VideoPage3 />} /> */}
-        <Route path="/lessons" element={<MathSection />} />
+        <Route path="/math" element={<MathSection />} />
         <Route path="/Add" element={<AddPage />} />
         <Route path="/CountLesson" element={<CountLesson />} />
         <Route path="/lesson" element={<AddLesson />} />
+        <Route path="/lessons" element={<LessonsPage />} />
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/AdminUser" element={<AdminUser />} />
         <Route path="/AdminStory" element={<AdminStory />} />

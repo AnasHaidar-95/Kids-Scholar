@@ -100,7 +100,7 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-gradient-to-br from-[#fff3f9] to-[#dbeffe] font-sans">
       <div className="max-w-4xl mx-auto px-6 py-24">
         {/* Profile Header */}
-        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-center mb-10 relative">
+        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 text-center mb-16 relative">
           <div className="w-24 h-24 rounded-full overflow-hidden shadow-lg mb-4 border-4 border-[#bb4fa9] mx-auto">
             {student.image ? (
               <img
@@ -135,8 +135,8 @@ const ProfilePage = () => {
         </div>
 
         {/* Badges */}
-        <div className="mb-10">
-          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4 text-center">
+        <div className="mb-20">
+          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-8  text-center">
             🎖️ Badges
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
@@ -159,7 +159,7 @@ const ProfilePage = () => {
 
         {/* Progress */}
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-4">
+          <h3 className="text-2xl font-bold text-[#bb4fa9] mb-8">
             📈 Progress
           </h3>
           <div className="relative w-full bg-gray-200 rounded-full h-8 max-w-xl mx-auto shadow-inner">

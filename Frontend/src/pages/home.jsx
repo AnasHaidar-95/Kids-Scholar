@@ -20,6 +20,7 @@ import {
 import HeroSlider from "../components/HeroSlider";
 import Footer from "../components/footer";
 import GLBViewer from "../../../../../anas/Kids-Scholar-main/Kids-Scholar-main/Frontend/src/components/GLBViewer";
+import { useNavigate } from "react-router-dom";
 
 // Floating icon component
 const FloatingIcon = ({ Icon, className }) => (
@@ -29,6 +30,7 @@ const FloatingIcon = ({ Icon, className }) => (
 );
 
 const Homepage = () => {
+  const navigate = useNavigate();
   return (
     <div className="font-sans relative overflow-hidden">
       <HeroSlider />
@@ -69,35 +71,43 @@ const Homepage = () => {
             icon: FaCalculator,
             title: "Math Magic",
             desc: "Practice numbers, shapes, puzzles, and logic in a fun way!",
+            path: "/math",
           },
           {
             icon: FaBook,
             title: "English Fun",
             desc: "Learn new words, stories, grammar, and reading skills.",
+            path: "/english",
           },
           {
             icon: FaFlask,
             title: "Cool Science",
             desc: "Explore animals, plants, planets, and cool experiments!",
+            path: "/science",
           },
           {
             icon: FaLaptopCode,
             title: "Programming Fun",
             desc: "Learn coding basics, logic games, and create cool animations!",
+            path: "/programming",
           },
-        ].map(({ icon: Icon, title, desc }, i) => (
-          <div
-            key={i}
-            className="relative bg-white rounded-2xl p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden cursor-pointer"
-          >
-            <Icon className="text-5xl text-[#f0c96a] mx-auto mb-4 z-10 relative" />
-            <h2 className="text-2xl font-bold text-[#bb4fa9] mb-2 z-10 relative">
-              {title}
-            </h2>
-            <p className="text-gray-700 z-10 relative">{desc}</p>
-            <Icon className="absolute text-[#bb4fa9] text-[8rem] opacity-10 bottom-0 right-0" />
-          </div>
-        ))}
+        ].map(({ icon: Icon, title, desc, path }, i) => {
+          const navigate = useNavigate();
+          return (
+            <div
+              key={i}
+              className="relative bg-white rounded-2xl p-6 text-center hover:scale-105 transition transform duration-300 overflow-hidden cursor-pointer"
+              onClick={() => navigate(path)}
+            >
+              <Icon className="text-5xl text-[#f0c96a] mx-auto mb-4 z-10 relative" />
+              <h2 className="text-2xl font-bold text-[#bb4fa9] mb-2 z-10 relative">
+                {title}
+              </h2>
+              <p className="text-gray-700 z-10 relative">{desc}</p>
+              <Icon className="absolute text-[#bb4fa9] text-[8rem] opacity-10 bottom-0 right-0" />
+            </div>
+          );
+        })}
       </section>
 
       {/* Why KidsScholar */}
